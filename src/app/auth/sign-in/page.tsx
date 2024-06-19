@@ -28,6 +28,15 @@ const SignInPage = () => {
                                     Create one
                                 </Link>
                             </p>
+                            <p className='text-muted-foreground'>
+                                Forgot your Password?{' '}
+                                <Link
+                                    href="/auth/forgot-password"
+                                    className="font-bold text-blue-900"
+                                >
+                                    Reset Here
+                                </Link>
+                            </p>
                         </div>
                     </div>
                 </SignInFormProvider>

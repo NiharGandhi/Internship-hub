@@ -32,7 +32,7 @@ const Layout = async ({ children }: Props) => {
             </div>
             <div className='hidden lg:flex flex-1 w-full max-h-full max-w-4000px overflow-hidden relative bg-cream flex-col pt-10 pl-24 gap-3'>
                 <h2 className='text-gravel md:text-4xl font-bold'>
-                    Hello there 👋, Welcome to Intenrship Hub!
+                    Hello there 👋, Welcome to InternVista!
                 </h2>
                 <p className='text-iridium md:text-sm mb-10'>
                     InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for Internship opportunities.
