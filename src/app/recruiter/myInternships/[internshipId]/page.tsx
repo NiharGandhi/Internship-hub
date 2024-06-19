@@ -16,7 +16,7 @@ import Link from 'next/link';
 import React from 'react';
 import { MessageCircle } from 'lucide-react';
 
-const ApplicationPage = async ({ params }) => {
+const ApplicationPage = async ({ params } : { params: any }) => {
     const { internshipId } = params;
 
     const applications = await client.application.findMany({
