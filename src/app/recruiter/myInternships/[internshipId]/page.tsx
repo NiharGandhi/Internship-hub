@@ -127,7 +127,9 @@ const ApplicationPage = async ({ params } : { params: any }) => {
                                 </CardContent>
                                 <CardFooter>
                                     Status:
-                                    <UpdateStatusButton applicationId={app.id} userEmail={app.user.email} userName={app.user.name} internshipName={internshipData?.name} />
+                                    {app.user.email && internshipData?.name && (
+                                        <UpdateStatusButton applicationId={app.id} userEmail={app.user.email} userName={app.user.name} internshipName={internshipData.name} />
+                                    )}
                                     <Link href={`/recruiter/message/${app.id}`} className='ml-auto'>
                                         <Button>
                                             <MessageCircle />

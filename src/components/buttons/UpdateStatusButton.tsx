@@ -3,7 +3,7 @@
 
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { SetStateAction, useEffect, useState } from 'react';
 import { useToast } from '../ui/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
@@ -46,7 +46,7 @@ const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName
         checkApplicationStatus();
     }, [applicationId]);
 
-    const updateStatus = async (newStatus) => {
+    const updateStatus = async (newStatus: SetStateAction<string>) => {
         setLoading(true);
 
         try {
