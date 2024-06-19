@@ -60,7 +60,7 @@ const OrganizationPage = async ({ params } : { params : {
                     alt='Banner'
                     width={1244}
                     height={200}
-                    className='h-[200px] rounded-xl'
+                    className='h-[200px] w-full md:w-[750px] xl:w-[1244px] rounded-xl'
                 />
                 <div style={{ position: 'absolute', top: 5, left: 10 }} className='bg-slate-200 rounded-lg'>
                     <Link href={"/organizations"}>
@@ -77,7 +77,7 @@ const OrganizationPage = async ({ params } : { params : {
                     />
                 </div>
             </div>
-            <div className='px-10 space-y-2 lg:mt-4 lg:ml-24 mt-16'>
+            <div className='px-2 xl:px-10 space-y-2 xl:mt-4 xl:ml-24 mt-16'>
                 <h1 className='font-bold text-4xl'>{company?.name}</h1>
                 <Badge>{company?.Location}</Badge>
                 <Separator />
@@ -88,7 +88,7 @@ const OrganizationPage = async ({ params } : { params : {
                     </p>
                 </div>
             </div>
-            <div className='px-10 space-y-2 lg:mt-6 lg:ml-24 mt-16'>
+            <div className='px-2 xl:px-10 space-y-2 lg:mt-6 xl:ml-24 mt-16'>
                 <h1 className='font-bold text-3xl mt-6'>Internships at <span className='text-orange'>{company?.name}</span></h1>
                 <div>
                     {internships.map(internship => (

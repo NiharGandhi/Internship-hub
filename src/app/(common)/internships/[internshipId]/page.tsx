@@ -84,7 +84,7 @@ const SelectedInternshipPage = async ({
                     alt='Banner'
                     width={1244}
                     height={396}
-                    className='h-[191px] rounded-xl'
+                    className='h-[200px] w-full md:w-[750px] xl:w-[1244px] rounded-xl'
                 />
                 <div style={{ position: 'absolute', top: 150, left: 20 }}>
                     <Image
@@ -96,7 +96,7 @@ const SelectedInternshipPage = async ({
                     />
                 </div>
             </div>
-            <div className='px-10 space-y-2 lg:mt-4 lg:ml-24 mt-16'>
+            <div className='px-2 xl:px-10 space-y-2 xl:mt-4 xl:ml-24 mt-16'>
                 <Link href={`/organizations/${company?.id}`}>
                     <h1 className='font-bold text-4xl'>{company?.name}</h1>
                 </Link>

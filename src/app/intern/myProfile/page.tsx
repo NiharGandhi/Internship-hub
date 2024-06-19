@@ -262,8 +262,8 @@ const MyProfile = () => {
                 </div>
                 <div className='flex-col lg:flex-wrap'>
                     <Form {...form}>
-                        <form onSubmit={form.handleSubmit(onSubmit)} className='flex-col lg:flex lg:flex-row'>
-                            <div className='w-full lg:w-1/2 md:w-1/2 py-4 space-y-6'>
+                        <form onSubmit={form.handleSubmit(onSubmit)} className='flex-col lg:flex xl:flex-row'>
+                            <div className='w-full xl:w-1/2 py-4 space-y-6'>
                                 <FormField
                                     control={form.control}
                                     name="name"
@@ -397,7 +397,7 @@ const MyProfile = () => {
                                     )}
                                 />
                             </div>
-                            <div className='w-full py-4 lg:px-10 md:px-10 space-y-6'>
+                            <div className='w-full py-4 xl:px-10 space-y-6'>
                                 <FormField
                                     control={form.control}
                                     name="email"

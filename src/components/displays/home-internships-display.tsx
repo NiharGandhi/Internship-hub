@@ -21,7 +21,7 @@ const DisplayInternshipsPage = ({ internships }: { internships: any }) => {
     return (
         <div>            
             <div className='space-y-4'>
-                <ScrollArea className="w-80 lg:w-[1200px] whitespace-nowrap rounded-md border">
+                <ScrollArea className="w-80 md:w-[700px] xl:w-[1200px] whitespace-nowrap rounded-md border">
                     <div className="flex w-max space-x-4 p-4">
                         {internships.map((internship: { id: React.Key | null | undefined; name: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; InternshipType: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; InternshipDescription: string | number | bigint | boolean | React.ReactElement<any, string | React.JSXElementConstructor<any>> | Iterable<React.ReactNode> | React.ReactPortal | Promise<React.AwaitedReactNode> | null | undefined; }) => (
                             <Card key={internship.id} className='w-[300px]'>
