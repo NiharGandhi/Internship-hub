@@ -53,10 +53,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { CalendarIcon, ChevronDown, DownloadCloudIcon, FileIcon } from 'lucide-react';
 import { SocialIcon } from 'react-social-icons'
 
-// import ProfileProjectsDisplay from '@/components/profileProjectsDisplay';
-// import ProfileCertificatesDisplay from '@/components/profileCertificatesDisplay';
 import { FileUpload } from '@/components/file-upload/file-upload';
 import { Spinner } from '@/components/spinner';
+
 import ProfileCertificatesDisplay from '@/components/displays/profileCertificatesDisplay';
 import ProfileProjectsDisplay from '@/components/displays/profileProjectsDisplay';
 
@@ -65,7 +64,7 @@ import ProfileProjectsDisplay from '@/components/displays/profileProjectsDisplay
 const formSchema = z.object({
     name: z.string().min(2).max(50),
     bio: z.string().min(10),
-    institutionName: z.string().min(2).max(150),
+    institutionName: z.string().min(2, "Minimum Length of 2 charcaters").max(150),
     educationLevel: z.enum(["High School", "Bachelors", "Masters"], {
         required_error: "You need to select a Education Level.",
     }),

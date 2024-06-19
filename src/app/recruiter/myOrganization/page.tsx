@@ -87,7 +87,7 @@ const MyProfile = () => {
         setIsEditing(!isEditing);
     };
 
-    const handleLocationInput = (e: { target: { value: string; }; }) => {
+    const handleLocationInput = (e: any) => {
         setValue(e.target.value);
     };
 
