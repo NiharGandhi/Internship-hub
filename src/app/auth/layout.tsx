@@ -35,7 +35,7 @@ const Layout = async ({ children }: Props) => {
                     Hello there 👋, Welcome to Intenrship Hub!
                 </h2>
                 <p className='text-iridium md:text-sm mb-10'>
-                    Internship Hub is the ultimate platform for students to showcase their profiles and connect with top employers for Internship opportunities.
+                    InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for Internship opportunities.
                 </p>
                 <Image 
                     src="/images/app-ui.png"

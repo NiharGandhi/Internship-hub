@@ -259,7 +259,7 @@ const InternshipEditPage = ({
                                             <FormControl>
                                                 <Input 
                                                     disabled={!isEditing}
-                                                    placeholder="Internship Hub" 
+                                                    placeholder="InternVista" 
                                                     {...field} />
                                             </FormControl>
                                             <FormDescription>

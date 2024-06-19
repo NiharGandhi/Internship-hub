@@ -223,7 +223,7 @@ const CertificateEditPage = ({
                                         <FormItem>
                                             <FormLabel>Name of Certification</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Internship Hub" {...field} disabled={!isEditing} />
+                                                <Input placeholder="InternVista" {...field} disabled={!isEditing} />
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

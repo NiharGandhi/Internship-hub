@@ -40,7 +40,7 @@ const SideNav = () => {
                         className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-12 w-full"
                     >
                         {/* LOGO */}
-                        <span className="font-bold text-xl hidden md:flex">Internship Hub</span>
+                        <span className="font-bold text-xl hidden md:flex">InternVista</span>
                     </Link>
                 ) : (
                         <Link
@@ -48,7 +48,7 @@ const SideNav = () => {
                             className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-12 w-full"
                         >   
                             {/* LOGO */}
-                            <span className="font-bold text-xl hidden md:flex">Internship Hub</span>
+                            <span className="font-bold text-xl hidden md:flex">InternVista</span>
                         </Link>
                 )}
 

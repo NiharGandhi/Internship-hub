@@ -230,7 +230,7 @@ const AddCertificatesPage = () => {
                                         <FormItem>
                                             <FormLabel>Name of the Certification</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Internship Hub" {...field} required/>
+                                                <Input placeholder="InternVista" {...field} required/>
                                             </FormControl>
                                             <FormMessage />
                                         </FormItem>

@@ -331,7 +331,7 @@ const MyProfile = () => {
                                             <FormItem>
                                                 <FormLabel>Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Internship Hub" {...field} disabled={!isEditing && userData !== null} />
+                                                    <Input placeholder="InternVista" {...field} disabled={!isEditing && userData !== null} />
                                                 </FormControl>
                                                 <FormDescription>
                                                     This is your public display name.

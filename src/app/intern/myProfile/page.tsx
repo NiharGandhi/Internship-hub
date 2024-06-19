@@ -271,7 +271,7 @@ const MyProfile = () => {
                                         <FormItem>
                                             <FormLabel>Name</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Internship Hub" {...field} disabled={!isEditing && userData !== null} required />
+                                                <Input placeholder="InternVista" {...field} disabled={!isEditing && userData !== null} required />
                                             </FormControl>
                                             <FormDescription>
                                                 This is your public display name.
@@ -422,7 +422,7 @@ const MyProfile = () => {
                                         <FormItem>
                                             <FormLabel>Skills</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="Internship Hub" {...field} disabled={!isEditing && userData !== null} required />
+                                                <Input placeholder="InternVista" {...field} disabled={!isEditing && userData !== null} required />
                                             </FormControl>
                                             <FormDescription>Multiple Skils Separeted by commas (eg: photography, graphic Design)</FormDescription>
                                             <FormMessage />

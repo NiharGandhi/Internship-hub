@@ -35,7 +35,7 @@ const Header = () => {
                         className='flex flex-row space-x-3 items-center justify-center md:hidden'
                     >
                         <span className='h-7 w-7 bg-zinc-300 rounded-lg' />
-                        <span className='font-bold text-xl flex' >Internship Hub</span>
+                        <span className='font-bold text-xl flex' >InternVista</span>
                     </Link>
                 ) : (
                     <Link
@@ -43,7 +43,7 @@ const Header = () => {
                         className='flex flex-row space-x-3 items-center justify-center md:hidden'
                     >
                         <span className='h-7 w-7 bg-zinc-300 rounded-lg' />
-                        <span className='font-bold text-xl flex' >Internship Hub</span>
+                        <span className='font-bold text-xl flex' >InternVista</span>
                     </Link>
                  )}
             </div>

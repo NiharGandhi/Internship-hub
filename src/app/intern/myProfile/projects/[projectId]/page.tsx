@@ -233,7 +233,7 @@ const ProjectEditPage = ({
                                       <FormItem>
                                           <FormLabel>Name</FormLabel>
                                           <FormControl>
-                                              <Input placeholder="Internship Hub" {...field} disabled={!isEditing}/>
+                                              <Input placeholder="InternVista" {...field} disabled={!isEditing}/>
                                           </FormControl>
                                           <FormMessage />
                                       </FormItem>
