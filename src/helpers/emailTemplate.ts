@@ -479,7 +479,7 @@ export const applicantEmailTemplate = (user: { name: any; EducationLevel: any; I
 </html>
                 `
 
-export const applicationStatusChange = (userName, internshipName) => `
+export const applicationStatusChange = (userName: string, internshipName: string) => `
                     <!DOCTYPE html>
 						<html xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office" lang="en">
 
