@@ -1,0 +1,167 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id String @id @default(uuid()) @map("_id")
+  userId String @unique
+  name String
+  bio String? 
+  EducationLevel String? 
+  InstitutionName String?
+  GraduationDate DateTime?
+  email String? @unique 
+  stripe_customer_id String?
+  verified Boolean @default(false)
+  instagramLink String?
+  linkedInLink String?
+  xLink String?
+  
+  skills String?
+
+  resume String?
+
+  role UserRole @default(USER)
+  userType String @default("INTERNSHIP_FINDER")
+  projects Project[]
+  certificates Certificate[]
+  applications Application[]
+
+  sentMessages Message[] @relation("UserSentMessages")
+  receivedMessages Message[] @relation("UserReceivedMessages")
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+enum UserType {
+  INTERNSHIP_FINDER
+  RECRUITER
+}
+
+model Project {
+  id          String   @id @default(uuid()) @map("_id")
+  name        String   
+  description String   
+  link        String?  
+  imageUrl    String? 
+  userId      String
+  user        User     @relation(fields: [userId], references: [userId])
+}
+
+model Certificate {
+  id          String   @id @default(uuid()) @map("_id")
+  name        String   
+  description String   
+  link        String?  
+  certificateUrl    String? 
+  userId      String
+  user        User     @relation(fields: [userId], references: [userId])
+}
+
+model Events {
+  id String @id @default(uuid()) @map("_id")
+  title String 
+  dateTime DateTime
+  description String @default("null")
+  link String?
+}
+
+model OnlineReourses {
+  id String @id @default(uuid()) @map("_id")
+  name String
+  desc String 
+  link String
+}
+
+model RecommendedBooks {
+  id String @id @default(uuid()) @map("_id")
+  name String 
+  author String 
+  link String 
+}
+
+model UsefulTools {
+  id String @id @default(uuid()) @map("_id")
+  name String 
+  desc String 
+  link String 
+}
+
+model Company {
+  id String @id @default(uuid()) @map("_id")
+  userId String @unique
+  name String 
+  email String?
+  userType String @default("RECRUITER")
+  CompanyDescription String?
+  CompanyImageUrl String? 
+  CompanyLogoUrl String? 
+  Location String @default("")
+
+  projects CreateInternship[]
+  sentMessages Message[] @relation("CompanySentMessages")
+  receivedMessages Message[] @relation("CompanyReceivedMessages")
+}
+
+model CreateInternship {
+  id          String   @id @default(uuid()) @map("_id")
+  name        String   
+  EducationLevel String? 
+  InternshipDescription String?
+  InternshipRequirement String?
+  Paid Boolean
+  AmountPaid String?
+  InternshipType String @default("on-site")
+  userId      String      
+  user        Company     @relation(fields: [userId], references: [userId])
+  applications Application[]
+}
+
+model Application {
+  id                   String            @id @default(uuid()) @map("_id")
+  userId               String            
+  user                 User               @relation(fields: [userId], references: [id])
+  internshipId         String    
+  internship           CreateInternship   @relation(fields: [internshipId], references: [id])
+  createdAt            DateTime           @default(now())
+  updatedAt            DateTime           @updatedAt
+  status ApplicationStatus @default(PENDING)
+
+  messages Message[]
+}
+
+enum ApplicationStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+}
+
+model Message {
+  id              String        @id @default(uuid()) @map("_id")
+  content         String
+  createdAt       DateTime      @default(now())
+  senderUserId    String?      
+  senderUser      User?         @relation("UserSentMessages", fields: [senderUserId], references: [id])
+  receiverUserId  String?      
+  receiverUser    User?         @relation("UserReceivedMessages", fields: [receiverUserId], references: [id])
+  senderCompanyId String?       
+  senderCompany   Company?      @relation("CompanySentMessages", fields: [senderCompanyId], references: [id])
+  receiverCompanyId String?     
+  receiverCompany Company?      @relation("CompanyReceivedMessages", fields: [receiverCompanyId], references: [id])
+  applicationId   String        
+  application     Application   @relation(fields: [applicationId], references: [id])
+}

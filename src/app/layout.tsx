@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
+import { ClerkProvider } from "@clerk/nextjs";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/toaster";
+import Header from "@/components/header/header";
+import HeaderMobile from "@/components/header/header-mobile";
+import SideNav from "@/components/side-nav/side-nav";
+import PageWrapper from "@/components/wrappers/page-wrapper";
+import MarginWidthWrapper from "@/components/wrappers/margin-width-wrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -15,8 +22,30 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={inter.className}>{children}</body>
-    </html>
+    <ClerkProvider>
+      <html lang="en">
+        <head>
+          <script
+            defer
+            src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API}&libraries=places`}
+          ></script>
+        </head>
+        <body className={`bg-white ${inter.className}`}>
+          <div className="flex">
+            <SideNav />
+            <main className="flex-1">
+              <MarginWidthWrapper>
+                <Header />
+                <HeaderMobile />
+                <PageWrapper>
+                  {children}
+                </PageWrapper>
+              </MarginWidthWrapper>
+              <Toaster />
+            </main>
+          </div>
+        </body>
+      </html>
+    </ClerkProvider>
   );
 }
