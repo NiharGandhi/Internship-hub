@@ -7,9 +7,12 @@ import { useSelectedLayoutSegment } from 'next/navigation';
 
 import useScroll from "@/hooks/sidenav/use-scroll";
 import { cn } from '@/lib/utils';
-import { UserButton } from '@clerk/nextjs';
+import { UserButton, useUser } from '@clerk/nextjs';
+import { Button } from '../ui/button';
 
 const Header = () => {
+
+    const { user } = useUser();
     
     const scrolled = useScroll(5);
     const selectedLayout = useSelectedLayoutSegment();
@@ -26,19 +29,37 @@ const Header = () => {
     >
         <div className='flex h-[47px] items-center justify-between px-4'>
             <div className='flex items-center space-x-4'>
-                <Link 
-                    href="/"
-                    className='flex flex-row space-x-3 items-center justify-center md:hidden'    
-                >  
-                    <span className='h-7 w-7 bg-zinc-300 rounded-lg' />
-                    <span className='font-bold text-xl flex' >InternshipHub</span>
-                </Link>
+                {user ? ( 
+                    <Link
+                        href="/home"
+                        className='flex flex-row space-x-3 items-center justify-center md:hidden'
+                    >
+                        <span className='h-7 w-7 bg-zinc-300 rounded-lg' />
+                        <span className='font-bold text-xl flex' >Internship Hub</span>
+                    </Link>
+                ) : (
+                    <Link
+                        href="/home"
+                        className='flex flex-row space-x-3 items-center justify-center md:hidden'
+                    >
+                        <span className='h-7 w-7 bg-zinc-300 rounded-lg' />
+                        <span className='font-bold text-xl flex' >Internship Hub</span>
+                    </Link>
+                 )}
             </div>
 
             <div className='hidden md:block'>
-                <div className='h-8 w-8 rounded-full bg-zinc-300 flex items-center justify-center'>
-                    <UserButton />
-                </div>
+                {user ? (
+                    <div className='h-8 w-8 rounded-full bg-zinc-300 flex items-center justify-center'>
+                        <UserButton />
+                    </div>
+                ): (
+                    <div>
+                        <Button className='bg-orange text-black hover:bg-gray-300'>
+                            <Link href={'/auth/sign-in'}>Sign In</Link>
+                        </Button>  
+                    </div>
+                )}
             </div>
         </div>
     </div>

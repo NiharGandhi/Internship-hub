@@ -117,7 +117,7 @@ const SearchInternshipsPage = ({ internships } : { internships : any }) => {
             <Breadcrumb className='mt-3 ml-10'>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                        <BreadcrumbLink href="/home">Home</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

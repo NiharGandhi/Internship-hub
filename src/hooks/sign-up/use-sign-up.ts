@@ -78,7 +78,7 @@ export const useSignUpForm = () => {
                         })
 
                         setLoading(false)
-                        router.push('/dashboard')
+                        router.push('/home')
                     } else {
                         toast({
                             title: 'Error',

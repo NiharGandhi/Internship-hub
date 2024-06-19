@@ -66,11 +66,11 @@ const MessagePage = ({ params }: { params: any }) => {
             <Breadcrumb className='mt-3 ml-10'>
                 <BreadcrumbList>
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                        <BreadcrumbLink href="/home">Home</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbLink href="/internships/appliedInternships">Applied Internships</BreadcrumbLink>
+                        <BreadcrumbLink href="/intern/myInternships">Applied Internships</BreadcrumbLink>
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>

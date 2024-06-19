@@ -18,7 +18,7 @@ const Layout = ({ children }: Readonly<{
 
             // Redirect or manage access based on userType
             if (userType !== 'RECRUITER') {
-                redirect("/dashboard");
+                redirect("/home");
             }
         }
     }, [user]);

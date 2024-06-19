@@ -207,11 +207,11 @@ const CreateInternship = () => {
                 <Breadcrumb className='mb-4'>
                     <BreadcrumbList>
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                            <BreadcrumbLink href="/home">Home</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href="/myOrganization">My Organization</BreadcrumbLink>
+                            <BreadcrumbLink href="/recruiter/myOrganization">My Organization</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>

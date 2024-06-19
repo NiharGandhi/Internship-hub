@@ -207,7 +207,7 @@ const ProjectEditPage = ({
               <Breadcrumb className='mb-4'>
                   <BreadcrumbList>
                       <BreadcrumbItem>
-                          <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                          <BreadcrumbLink href="/home">Home</BreadcrumbLink>
                       </BreadcrumbItem>
                       <BreadcrumbSeparator />
                       <BreadcrumbItem>
