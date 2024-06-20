@@ -44,7 +44,7 @@ const EventCard: React.FC<EventCardProps> = ({ events, title, desc, upcomingEven
                             {upcomingEvents.length > 0 ? (
                                 <div className="grid gap-4">
                                     {upcomingEvents.map((event) => (
-                                        <Link key={event.id} href={`/events/${event.id}`}>
+                                        <Link key={event.id} href={`/home/events/${event.id}`}>
                                             <div className="flex items-center gap-4">
                                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
                                                     <CalendarIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
@@ -67,7 +67,7 @@ const EventCard: React.FC<EventCardProps> = ({ events, title, desc, upcomingEven
                             {pastEvents.length > 0 ? (
                                 <div className="grid gap-4">
                                     {pastEvents.map((event) => (
-                                        <Link key={event.id} href={`/events/${event.id}`}>
+                                        <Link key={event.id} href={`/home/events/${event.id}`}>
                                             <div className="flex items-center gap-4">
                                                 <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
                                                     <CalendarIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
