@@ -234,7 +234,7 @@ const SearchInternshipsPage = ({ internships } : { internships : any }) => {
                 <Button variant="ghost" onClick={clearFilters}>Clear Filters</Button>
                 {/* Internship Cards */}
                 {currentInternships.map((internship: { id: React.Key | null | undefined; name: string; InternshipType: string; InternshipDescription: string; user: { id: string; name: string; CompanyLogoUrl: string } }) => (
-                    <Card key={internship.id} className='mb-4 hover:shadow-md hover:shadow-yellow-100'>
+                    <Card key={internship.id} className='mb-4 hover:shadow-md'>
                         <CardHeader>
                             <div className='flex'>
                                 <div>
