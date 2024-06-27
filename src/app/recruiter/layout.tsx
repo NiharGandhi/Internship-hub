@@ -23,9 +23,9 @@ const Layout = ({ children }: Readonly<{
         }
     }, [user]);
 
-    if (!isLoaded) {
-        return <Spinner />;
-    }
+    // if (!isLoaded) {
+    //     return <Spinner />;
+    // }
 
     return (
         <div>

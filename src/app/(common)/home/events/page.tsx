@@ -16,7 +16,7 @@ const EventsPage = () => {
 
     return (
         <div>
-            <Breadcrumb className='mt-3 ml-10'>
+            <Breadcrumb className='mt-3 ml-2 lg:ml-10'>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/home">Home</BreadcrumbLink>
@@ -27,11 +27,11 @@ const EventsPage = () => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <h1 className='font-bold text-4xl mt-2 px-10'>Events</h1>
+            <h1 className='font-bold text-4xl mt-2 px-1 lg:px-10'>Events</h1>
             <div className="flex flex-col">
-                <main className="flex-1 lg:p-6 px-4 py-4">
-                    <div className="grid gap-6">
-                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+                <main className="lg:py-6 py-4">
+                    <div className="grid">
+                        <div className="grid grid-cols-1 gap-2 lg:grid-cols-2">
                             <div className="container mx-auto px-4">
                                 <div>
                                     {upcomingEvents.length > 0 ? (
