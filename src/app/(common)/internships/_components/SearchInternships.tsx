@@ -114,7 +114,7 @@ const SearchInternshipsPage = ({ internships } : { internships : any }) => {
 
     return (
         <div>
-            <Breadcrumb className='mt-3 ml-10'>
+            <Breadcrumb className='mt-3 lg:ml-10'>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/home">Home</BreadcrumbLink>
@@ -125,8 +125,8 @@ const SearchInternshipsPage = ({ internships } : { internships : any }) => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <h1 className='font-bold text-4xl mt-2 px-10'>Internships</h1>
-            <div className='py-4 px-8 space-y-4 space-x-4'>
+            <h1 className='font-bold text-4xl mt-2 lg:px-10'>Internships</h1>
+            <div className='py-4 lg:px-8 space-y-4 space-x-4'>
                 {/* Search Bar */}
                 <Input
                     type="text"

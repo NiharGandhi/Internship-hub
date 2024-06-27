@@ -54,7 +54,7 @@ const InternshipsPage = async () => {
 
     return (
         <div>
-            <Breadcrumb className='mt-3 ml-10'>
+            <Breadcrumb className='mt-3 lg:ml-10'>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/home">Dashboard</BreadcrumbLink>
@@ -69,8 +69,8 @@ const InternshipsPage = async () => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <h1 className='font-bold text-4xl mt-2 px-10'>Applied Internships</h1>
-            <div className='py-4 px-8'>
+            <h1 className='font-bold text-4xl mt-2 lg:px-10'>Applied Internships</h1>
+            <div className='py-4 lf:px-8'>
                 {appliedInternships.length > 0 ? ( appliedInternships.map(internships => (
                     <Link key={internships.id} href={`/internships/${internships.internship.id}`}>
                         <Card className='mb-4'>

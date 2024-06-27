@@ -23,7 +23,7 @@ const UsersPage = async () => {
 
   return (
     <div>
-      <Breadcrumb className='mt-3 ml-10'>
+      <Breadcrumb className='mt-3 lg:ml-10'>
         <BreadcrumbList>
           <BreadcrumbItem>
             <BreadcrumbLink href="/home">Home</BreadcrumbLink>
@@ -34,7 +34,7 @@ const UsersPage = async () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <h1 className='font-bold text-4xl mt-2 px-10'>Users</h1>
+      <h1 className='font-bold text-4xl mt-2 lg:px-10'>Users</h1>
       <SearchUsersPage userId={userId} users={users} />
     </div>
   );

@@ -34,7 +34,7 @@ const ProfileCertificatesDisplay = ({
                                               </Link>
                                           </div>
                                           <div className='w-32 lg:w-[800px]'>
-                                              <h3 className="text-lg font-semibold">{certicate.name}</h3>
+                                              <h3 className="text-lg font-semibold line-clamp-2">{certicate.name}</h3>
                                               <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{certicate.description}</p>
                                           </div>
                                       </>
@@ -44,7 +44,7 @@ const ProfileCertificatesDisplay = ({
                                               <CalendarIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
                                           </div>
                                           <div className='w-32 lg:w-[800px]'>
-                                              <h3 className="text-lg font-semibold">{certicate.name}</h3>
+                                              <h3 className="text-lg font-semibold line-clamp-2">{certicate.name}</h3>
                                               <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{certicate.description}</p>
                                           </div>
                                       </>
