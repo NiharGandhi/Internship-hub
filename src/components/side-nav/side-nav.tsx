@@ -10,6 +10,9 @@ import { Icon } from '@iconify/react';
 import { INTERNSHIP_FINDER_SIDENAV_ITEMS, RECRUITER_SIDENAV_ITEMS } from '@/constants/navigation';
 import { useUser } from '@clerk/nextjs';
 import { Spinner } from '../spinner';
+import Image from 'next/image';
+
+import logo from '../../../public/images/favicon-32x32.png';
 
 const SideNav = () => {
     const [navItems, setNavItems] = useState<SideNavItem[]>([]);
@@ -39,7 +42,12 @@ const SideNav = () => {
                         href="/home"
                         className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-12 w-full"
                     >
-                        {/* LOGO */}
+                        <Image
+                            src={logo}
+                            alt='logo'
+                            width={32}
+                            height={32}
+                        />
                         <span className="font-bold text-xl hidden md:flex">InternVista</span>
                     </Link>
                 ) : (
@@ -47,7 +55,12 @@ const SideNav = () => {
                             href="/"
                             className="flex flex-row space-x-3 items-center justify-center md:justify-start md:px-6 border-b border-zinc-200 h-12 w-full"
                         >   
-                            {/* LOGO */}
+                            <Image
+                                src={logo}
+                                alt='logo'
+                                width={32}
+                                height={32}
+                            />
                             <span className="font-bold text-xl hidden md:flex">InternVista</span>
                         </Link>
                 )}

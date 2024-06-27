@@ -34,15 +34,15 @@ const Header = () => {
                         href="/home"
                         className='flex flex-row space-x-3 items-center justify-center md:hidden'
                     >
-                        <span className='h-7 w-7 bg-zinc-300 rounded-lg' />
+                        <span className='h-7 w-7 bg-zinc-300 rounded-lg'></span>
                         <span className='font-bold text-xl flex' >InternVista</span>
                     </Link>
                 ) : (
                     <Link
-                        href="/home"
+                        href="/"
                         className='flex flex-row space-x-3 items-center justify-center md:hidden'
                     >
-                        <span className='h-7 w-7 bg-zinc-300 rounded-lg' />
+                        <span className='h-7 w-7 bg-zinc-300 rounded-lg'></span>
                         <span className='font-bold text-xl flex' >InternVista</span>
                     </Link>
                  )}
