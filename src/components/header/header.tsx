@@ -9,6 +9,9 @@ import useScroll from "@/hooks/sidenav/use-scroll";
 import { cn } from '@/lib/utils';
 import { UserButton, useUser } from '@clerk/nextjs';
 import { Button } from '../ui/button';
+import Image from 'next/image';
+
+import logo from '../../../public/images/apple-touch-icon.png';
 
 const Header = () => {
 
@@ -34,7 +37,14 @@ const Header = () => {
                         href="/home"
                         className='flex flex-row space-x-3 items-center justify-center md:hidden'
                     >
-                        <span className='h-7 w-7 bg-zinc-300 rounded-lg'></span>
+                        <span className='h-7 w-7 bg-zinc-300 rounded-lg'>
+                              <Image
+                                  src={logo}
+                                  alt='logo'
+                                  width={32}
+                                  height={32}
+                              />
+                        </span>
                         <span className='font-bold text-xl flex' >InternVista</span>
                     </Link>
                 ) : (
