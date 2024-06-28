@@ -8,6 +8,7 @@ import HeaderMobile from "@/components/header/header-mobile";
 import SideNav from "@/components/side-nav/side-nav";
 import PageWrapper from "@/components/wrappers/page-wrapper";
 import MarginWidthWrapper from "@/components/wrappers/margin-width-wrapper";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 const inter = Inter({ subsets: ["latin"] });
 
