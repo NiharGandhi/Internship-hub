@@ -48,6 +48,7 @@ export default function RootLayout({
                   {children}
                 </PageWrapper>
               </MarginWidthWrapper>
+              <SpeedInsights />
               <Toaster />
             </main>
           </div>
