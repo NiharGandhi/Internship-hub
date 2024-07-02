@@ -64,10 +64,10 @@ const Home = () => {
                             <div className="flex flex-col justify-center space-y-4">
                                 <div className="space-y-2">
                                     <h1 className="text-3xl font-bold tracking-tighter sm:text-5xl xl:text-6xl/none">
-                                        Find your dream internship with Internee
+                                        Find your dream internship with InternVista
                                     </h1>
                                     <p className="max-w-[600px] text-gray-500 md:text-xl dark:text-gray-400">
-                                        Internee is the ultimate platform for students to showcase their profiles and connect with top
+                                        InternVista is the ultimate platform for students to showcase their profiles and connect with top
                                         employers for internship opportunities.
                                     </p>
                                 </div>
