@@ -48,7 +48,7 @@ const Header = () => {
                             </span>
                             <span className='font-bold text-xl flex'>InternVista</span>
                         </Link>
-                          <div className='h-8 w-8 rounded-full bg-zinc-300 ml-[180px] md:hidden'>
+                          <div className='h-8 w-8 rounded-full bg-zinc-300 ml-auto md:hidden'>
                               <UserButton afterSignOutUrl='/' />
                           </div>
                     </div>
