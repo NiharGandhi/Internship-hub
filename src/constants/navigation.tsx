@@ -62,6 +62,11 @@ export const RECRUITER_SIDENAV_ITEMS: SideNavItem[] = [
         icon: <Icon icon="lucide:user" width="24" height="24" />
     },
     {
+        title: 'Organizations',
+        path: '/organizations',
+        icon: <Building2Icon width="24" height="24" />
+    },
+    {
         title: 'Internships',
         path: '/internships',
         icon: <BriefcaseBusinessIcon width="24" height="24" />,
