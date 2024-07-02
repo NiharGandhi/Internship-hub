@@ -52,8 +52,8 @@ export const RECRUITER_SIDENAV_ITEMS: SideNavItem[] = [
         submenu: true,
         subMenuItems: [
             { title: 'Home', path: '/home' },
-            { title: 'Events', path: '/events' },
-            { title: 'Resources', path: '/resources' }
+            { title: 'Events', path: '/home/events' },
+            { title: 'Resources', path: '/home/resources' }
         ]
     },
     {
