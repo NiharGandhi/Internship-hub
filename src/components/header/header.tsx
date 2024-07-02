@@ -7,7 +7,7 @@ import { useSelectedLayoutSegment } from 'next/navigation';
 
 import useScroll from "@/hooks/sidenav/use-scroll";
 import { cn } from '@/lib/utils';
-import { UserButton, useUser } from '@clerk/nextjs';
+import { SignOutButton, UserButton, useUser } from '@clerk/nextjs';
 import { Button } from '../ui/button';
 import Image from 'next/image';
 
@@ -32,21 +32,26 @@ const Header = () => {
     >
         <div className='flex h-[47px] items-center justify-between px-4'>
             <div className='flex items-center space-x-4'>
-                {user ? ( 
-                    <Link
-                        href="/home"
-                        className='flex flex-row space-x-3 items-center justify-center md:hidden'
-                    >
-                        <span className='h-7 w-7 bg-zinc-300 rounded-lg'>
-                              <Image
-                                  src={logo}
-                                  alt='logo'
-                                  width={32}
-                                  height={32}
-                              />
-                        </span>
-                        <span className='font-bold text-xl flex' >InternVista</span>
-                    </Link>
+                {user ? (
+                    <div className='flex'> 
+                        <Link
+                            href="/home"
+                            className='flex flex-row space-x-3 items-center justify-center md:hidden'
+                        >
+                            <span className='h-7 w-7 bg-zinc-300 rounded-lg'>
+                                <Image
+                                    src={logo}
+                                    alt='logo'
+                                    width={32}
+                                    height={32}
+                                />
+                            </span>
+                            <span className='font-bold text-xl flex'>InternVista</span>
+                        </Link>
+                          <div className='h-8 w-8 rounded-full bg-zinc-300 ml-[180px] md:hidden'>
+                              <UserButton afterSignOutUrl='/' />
+                          </div>
+                    </div>
                 ) : (
                     <Link
                         href="/"
@@ -61,7 +66,7 @@ const Header = () => {
             <div className='hidden md:block'>
                 {user ? (
                     <div className='h-8 w-8 rounded-full bg-zinc-300 flex items-center justify-center'>
-                        <UserButton />
+                        <UserButton afterSignOutUrl='/' />
                     </div>
                 ): (
                     <div>

@@ -14,7 +14,7 @@ const Layout = ({ children }: Readonly<{
         if (user) {
             const userType = user.publicMetadata?.userType;
 
-            console.log(userType);
+            // console.log(userType);
 
             // Redirect or manage access based on userType
             if (userType !== 'RECRUITER') {

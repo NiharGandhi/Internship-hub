@@ -71,7 +71,7 @@ export interface DomainVerificationResponse {
 
 export type SideNavItem = {
     title: string;
-    path: string;
+    path: string | any;
     icon?: JSX.Element;
     submenu?: boolean;
     subMenuItems?: SideNavItem[];
