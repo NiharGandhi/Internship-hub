@@ -44,6 +44,7 @@ const ConnectionButton: React.FC<ConnectionButtonProps> = ({ targetUserId }) => 
 
                 if (!(response.data === null)) {
                     setConnection(response.data.status);
+                    window.location.reload();
                 } else {
                     setConnection("Connect")
                 }

@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 
 export default function NotFound() {
     return (
-        <div className='flex flex-col justify-center items-center'>
+        <div className='flex flex-col h-screen justify-center items-center'>
             <div className='flex flex-col items-center justify-center'>
                 <Image 
                     src={NotFoundPlaceholder}

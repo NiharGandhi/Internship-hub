@@ -47,6 +47,16 @@ export const INTERNSHIP_FINDER_SIDENAV_ITEMS: SideNavItem[] = [
         path: '/intern/myProfile',
         icon: <Icon icon="lucide:user" width="24" height="24" />
     },
+    {
+        title: 'Connects',
+        path: '/connects',
+        icon: <Icon icon="lucide:globe-lock" width="24" height="24" />,
+        submenu: true,
+        subMenuItems: [
+            { title: 'Connects', path: '/connects'},
+            { title: 'My Connects', path: '/connects/myConnects' }
+        ]
+    }
 ]
 
 export const RECRUITER_SIDENAV_ITEMS: SideNavItem[] = [
@@ -92,4 +102,14 @@ export const RECRUITER_SIDENAV_ITEMS: SideNavItem[] = [
         path: '/recruiter/myOrganization',
         icon: <Building2Icon width="24" height="24" />
     },
+    {
+        title: 'Connects',
+        path: '/connects',
+        icon: <Icon icon="lucide:globe-lock" width="24" height="24" />,
+        submenu: true,
+        subMenuItems: [
+            { title: 'Connects', path: '/connects' },
+            { title: 'My Connects', path: '/connects/myConnects' }
+        ]
+    }
 ]

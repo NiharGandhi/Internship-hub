@@ -10,7 +10,7 @@ import Header from '@/components/header/header';
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 import { client } from '@/lib/prisma';
-import SearchUsersPage from '../users/_components/SearchUsersPage';
+import ConnectionUsersPage from './_components/ConnectionUsersPage';
 
 const Connections = async () => {
     const { userId } = auth();
@@ -19,9 +19,19 @@ const Connections = async () => {
         redirect("/") // Handle redirecting or displaying a message
     }
 
+    const user = await client.user.findUnique({
+        where: {
+            userId: userId
+        }
+    })
+
     const users = await client.connectRequest.findMany({
         where: {
-            receiverUserId: userId
+            receiverUserId: user!.id,
+            status: "PENDING"
+        },
+        include: {
+            senderUser: true
         }
     })
 
@@ -34,12 +44,18 @@ const Connections = async () => {
                     </BreadcrumbItem>
                     <BreadcrumbSeparator />
                     <BreadcrumbItem>
-                        <BreadcrumbPage>Users</BreadcrumbPage>
+                        <BreadcrumbPage>Connections</BreadcrumbPage>
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <h1 className='font-bold text-4xl mt-2 lg:px-10'>Users</h1>
-            <SearchUsersPage userId={userId} users={users} />
+            <h1 className='font-bold text-4xl mt-2 lg:px-10'>Connections</h1>
+            {users && users.length > 0 ? (
+                <ConnectionUsersPage userId={userId} users={users} />
+            ) : (
+                <div className='flex justify-center items-center h-screen'>
+                    <p className='text-muted-foreground'>No Connection Requests :(</p>
+                </div>
+            )}
         </div>
     );
 }

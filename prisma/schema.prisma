@@ -175,7 +175,7 @@ model Message {
 model ConnectRequest {
   id String @id @default(uuid()) @map("_id")
   senderUserId String?
-  senderUser User? @relation("Sender", fields: [senderUserId], references: [id])
+  senderUser User? @relation("Sender", fields: [senderUserId], references: [userId])
   receiverUserId String?
   receiverUser User? @relation("Receiver", fields: [receiverUserId], references: [id])
   senderCompanyId String?
