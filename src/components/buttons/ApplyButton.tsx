@@ -9,9 +9,9 @@ import { useToast } from '../ui/use-toast';
 
 import { Knock } from "@knocklabs/node";
 
-const KnockSecret = String(process.env.KNOCK_API_KEY)
+const KnockSecret = String(process.env.NEXT_PUBLIC_KNOCK_API_KEY)
 
-const knockClient = new Knock(KnockSecret);
+const knockClient = new Knock("sk_ylMYMj2CN3mm6F2l--Xkqg-5gBI1LVm3n85-2E6UAok");
 
 const ApplyButton = ({ user, company, internship }:
 	{ user: any, company: any, internship: any }) => {
