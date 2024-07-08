@@ -21,7 +21,7 @@ const NotificationFeed = () => {
 
     if (!user) return;
 
-    const knockApiKey = String(process.env.NEXT_PUBLIC_KNOCK_SIGNING_KEY);
+    const knockApiKey = String(process.env.NEXT_PUBLIC_KNOCK_PUBLIC_API_KEY);
     const feedChannelId = String(process.env.NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID)
 
     return (

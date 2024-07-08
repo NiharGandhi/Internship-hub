@@ -9,7 +9,7 @@ import { useToast } from '../ui/use-toast';
 
 import { Knock } from "@knocklabs/node";
 
-const KnockSecret = String(process.env.NEXT_PUBLIC_KNOCK_API_KEY)
+const KnockSecret = String(process.env.KNOCK_API_KEY)
 
 const knockClient = new Knock(KnockSecret);
 
