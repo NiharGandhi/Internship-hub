@@ -13,7 +13,7 @@ import { Knock } from '@knocklabs/node';
 import { useUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
-const knockClient = new Knock("sk_test_BfAGgc7vwQyCvbDC-k0pvmKMW7qrw5wHaoJyYZtAmCM");
+const knockClient = new Knock(String(process.env.KNOCK_API_KEY));
 
 const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName, userId } : {
     applicationId: string,
