@@ -78,7 +78,11 @@ export const useSignUpForm = () => {
                         })
 
                         setLoading(false)
-                        router.push('/home')
+                        if (values.userType === "INTERNSHIP_FINDER") {
+                            router.push('/intern/myProfile')
+                        } else if (values.userType === "RECRUITER") {
+                            router.push('recruiter/myOrganization')
+                        }
                     } else {
                         toast({
                             title: 'Error',

@@ -18,7 +18,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { InfoIcon } from 'lucide-react';
 
-import FallBack from "../../../../../../public/images/fallback.png";
+import FallBack from "../../../../../../../public/images/fallback.png";
 import { client } from '@/lib/prisma';
 
 

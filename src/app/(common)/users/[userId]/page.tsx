@@ -31,6 +31,8 @@ import { ArrowBigRight, BadgeCheckIcon, CalendarIcon, DownloadCloudIcon, FileIco
 
 import { SocialIcon } from 'react-social-icons';
 import { client } from '@/lib/prisma';
+import ProjectCard from '@/components/displays/ProjectCard';
+import CertificateCard from '@/components/displays/CertificateCard';
 
 
 const UserPublicPage = async ({
@@ -57,7 +59,7 @@ const UserPublicPage = async ({
         }
     })
 
-
+    const displayedProjects = projects.slice(0, 6);
 
     const certificates = await client.certificate.findMany({
         where: {
@@ -65,10 +67,12 @@ const UserPublicPage = async ({
         }
     });
 
+    const displayedCertificates = certificates.slice(0, 6);
+
 
     return (
         <div>
-            <Breadcrumb className='mt-2 ml-10'>
+            <Breadcrumb className='mt-2'>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/home">Home</BreadcrumbLink>
@@ -102,9 +106,11 @@ const UserPublicPage = async ({
                             )}
                         </div>
                         <div className='mt-4'>
-                            <h2 className='font-semibold'>
-                                Socials
-                            </h2>
+                            {user?.linkedInLink && user?.instagramLink && user?.xLink && (
+                                <h2 className='font-semibold'>
+                                    Socials
+                                </h2>
+                            )}
                             <div className='flex space-x-4 py-2'>
                                 {user?.linkedInLink && (
                                     <SocialIcon url={user?.linkedInLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
@@ -133,14 +139,12 @@ const UserPublicPage = async ({
                                             {user?.bio}
                                         </ScrollArea>
                                     </div>
-                                    <Separator />
                                 </>
                             )}
                             <div className='flex'>
                                 <h2 className='font-semibold mr-2'>Education Level:</h2>
                                 {user?.EducationLevel}
                             </div>
-                            <Separator />
                             <div className='flex'>
                                 <h2 className='font-semibold mr-2'>Graduation Date:</h2>
                                 {user?.GraduationDate ? user.GraduationDate.toDateString() : 'N/A'}
@@ -161,82 +165,40 @@ const UserPublicPage = async ({
                             </div>
                         )}
                         <Separator className='mt-6' />
-                        <h2 className='py-4 font-sans text-2xl'>{user?.name}&apos;s Projects</h2>
-                        {projects && projects.length > 0 ? (
-                            <div className='grid grid-cols-1 gap-4 mt-4'>
-                                {projects.map((project: any, index: number) => (
-                                    <div key={index} className="flex items-center gap-4">
-                                        {project.link ? ( // Check if project has a link
-                                            <> {/* Wrap in Link if project has a link */}
-                                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-                                                    <Link href={project.link}>
-                                                        <LinkIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                                                    </Link>
-                                                </div>
-                                                <div className='w-32 lg:w-[800px]'>
-                                                    <h3 className="text-lg font-semibold line-clamp-1 lg:line-clamp-none">{project.name}</h3>
-                                                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{project.description}</p>
-                                                </div>
-                                            </>
-                                        ) : ( // Render just the div if project does not have a link
-                                            <>
-                                                <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-                                                    <CalendarIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                                                </div>
-                                                <div className='w-32 lg:w-[800px]'>
-                                                    <h3 className="text-lg font-semibold">{project.name}</h3>
-                                                    <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{project.description}</p>
-                                                </div>
-                                            </>
-                                        )}
-                                        <Link href={`/users/${userId}/${project.id}`} className='ml-auto'>
-                                            <div className="h-auto w-auto items-center justify-center rounded-lg bg-purple-100 dark:bg-gray-800 text-sm px-2 lg:block hidden">
-                                                Learn More
-                                            </div>
-                                            <div className="h-auto w-auto items-center justify-center rounded-lg bg-purple-100 dark:bg-gray-800 text-sm px-2 lg:hidden">
-                                                <ArrowBigRight />
-                                            </div>
-                                        </Link>
-                                    </div>
+                        {displayedProjects && displayedProjects.length > 0 && (
+                            <>
+                                <div className='flex flex-col md:flex-row items-center justify-between'>
+                                    <h2 className='py-4 font-sans text-2xl'>{user?.name}&apos;s Projects</h2>
+                                    <Link href={`/users/${user?.id}/projects`} className='hover:scale-105 hover:text-cyan-500 transition-all'>
+                                        All projects -{'>'}
+                                    </Link>
+                                </div>
+                                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                                    {displayedProjects.map((project: any, index: number) => (
+                                        <ProjectCard project={project} key={index} />
 
-                                ))}
-                            </div>
-                        ) : (
-                            <div className='flex items-center justify-center text-muted-foreground'>
-                                No Projects Uploaded by {user?.name}
-                            </div>
+                                    ))}
+                                </div>
+                                <Separator className='mt-6' />
+                            </>
                         )}
-                        <Separator className='mt-6' />
-                        <h2 className='py-4 font-sans text-2xl'>{user?.name}&apos;s Certificates</h2>
-                        {certificates && certificates.length > 0 ? (
-                            <div className='grid grid-cols-1 gap-4 mt-4'>
-                                {certificates.map((certificate: any, index: number) => (
-                                    <div key={index} className="flex items-center gap-4">
-                                        <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
-                                            <CalendarIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
-                                        </div>
-                                        <div className='w-32 lg:w-[800px]'>
-                                            <h3 className="text-lg font-semibold line-clamp-1 lg:line-clamp-none">{certificate.name}</h3>
-                                            <p className="text-sm text-gray-500 dark:text-gray-400 line-clamp-1">{certificate.description}</p>
-                                        </div>
-                                        <Link href={`/users/${userId}/certificates/${certificate.id}`} className='ml-auto'>
-                                            <div className="h-auto w-auto items-center justify-center rounded-lg bg-purple-100 dark:bg-gray-800 text-sm px-2 lg:block hidden">
-                                                Learn More
-                                            </div>
-                                            <div className="h-auto w-auto items-center justify-center rounded-lg bg-purple-100 dark:bg-gray-800 text-sm px-2 lg:hidden">
-                                                <ArrowBigRight />
-                                            </div>
-                                        </Link>
-                                    </div>
+                        {displayedCertificates && displayedCertificates.length > 0 && (
+                            <>
+                                <div className='flex flex-col md:flex-row items-center justify-between'>
+                                    <h2 className='py-4 font-sans text-2xl'>{user?.name}&apos;s Certificates</h2>
+                                    <Link href={`/users/${user?.id}/certificates`} className='hover:scale-105 hover:text-cyan-500 transition-all'>
+                                        All Certificates -{'>'}
+                                    </Link>
+                                </div>
+                                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                                    {displayedCertificates.map((certificate: any, index: number) => (
+                                        <CertificateCard certificate={certificate} key={index} />
 
-                                ))}
-                            </div>
-                        ) : (
-                            <div className='flex items-center justify-center text-muted-foreground'>
-                                No Certificates Uploaded by {user?.name}
-                            </div>
+                                    ))}
+                                </div>
+                                <Separator className='mt-6' />
+                            </>
                         )}
-                        <Separator className='mt-6' />
                     </CardContent>
                     <CardFooter>
                         <Button

@@ -195,10 +195,10 @@ const MyProfile = () => {
         if (userData) {
             if (isEditing) {
                 return (
-                    <>
+                    <div className='flex'>
                         <Button type="button" onClick={toggleEdit}>Cancel</Button>
                         <Button className='ml-1' onClick={onSave}>Save</Button>
-                    </>
+                    </div>
                 );
             } else {
                 return <Button type="button" onClick={toggleEdit}>Edit</Button>;
@@ -259,6 +259,9 @@ const MyProfile = () => {
                     <h1 className='text-4xl font-bold font-sans'>
                         Your Profile
                     </h1>
+                    <div className='ml-auto'>
+                        {renderButtons()}
+                    </div>
                 </div>
                 <div className='flex-col lg:flex-wrap'>
                     <Form {...form}>

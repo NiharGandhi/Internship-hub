@@ -80,6 +80,7 @@ const Home = () => {
 
     if (loading) return <Spinner />
 
+    console.log(userData);
 
     if (userData === null && !loading) {
         return (
