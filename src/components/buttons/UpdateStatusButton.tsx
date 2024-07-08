@@ -13,7 +13,7 @@ import { Knock } from '@knocklabs/node';
 import { useUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
-const KnockSecret = String(process.env.NEXT_PUBLIC_KNOCK_SECRET_KEY)
+const KnockSecret = String(process.env.NEXT_PUBLIC_KNOCK_API_KEY)
 
 console.log("Knock Secret: ", KnockSecret);
 
