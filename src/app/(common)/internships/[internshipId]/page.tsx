@@ -97,9 +97,9 @@ const SelectedInternshipPage = async ({
                 </div>
             </div>
             <div className='px-2 xl:px-10 space-y-2 xl:mt-4 xl:ml-24 mt-16'>
-                <Link href={`/organizations/${company?.id}`}>
+                {/* <Link href={`/organizations/${company?.id}`}>
                     <h1 className='font-bold text-4xl'>{company?.name}</h1>
-                </Link>
+                </Link> */}
                 <Separator />
                 <div className='py-4'>
                     <Card className='w-full'>
