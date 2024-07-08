@@ -9,14 +9,27 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { ChevronDown } from 'lucide-react';
 import { applicationStatusChange } from '@/helpers/emailTemplate';
 
-const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName } : {
+import { Knock } from '@knocklabs/node';
+import { useUser } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
+
+const knockClient = new Knock("sk_test_BfAGgc7vwQyCvbDC-k0pvmKMW7qrw5wHaoJyYZtAmCM");
+
+const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName, userId } : {
     applicationId: string,
     userEmail: string,
     userName: string,
-    internshipName: string
+    internshipName: string,
+    userId: string,
 }) => {
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState('PENDING'); // Initial status
+
+    const { user } = useUser();
+
+    if (!user) {
+        redirect('/')
+    }
 
     const { toast } = useToast();
 
@@ -57,12 +70,20 @@ const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName
 
             setStatus(newStatus); // Update the status in the component state
 
-            await axios.post("/api/send-mail", {
-                to: `${userEmail}`,
-                name: `${userName}`,
-                subject: `${internshipName}`,
-                body: applicationStatusChange(userName, internshipName),
+            await knockClient.workflows.trigger('application-updated', {
+                data: {
+                    internshipName,
+                    applicationUrl: "www.internvista.tech/intern/myInternships",
+                },
+                recipients: [
+                    {
+                        id: userId,
+                        name: userName,
+                        email: userEmail
+                    }
+                ],
             })
+
 
             toast({
                 title: "Status Updated",

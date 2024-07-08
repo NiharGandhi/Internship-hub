@@ -8,6 +8,10 @@ import { useEffect, useState } from 'react';
 import { useToast } from '../ui/use-toast';
 import { recruiterEmailTemplate, applicantEmailTemplate } from '@/helpers/emailTemplate';
 
+import { Knock } from "@knocklabs/node";
+
+const knockClient = new Knock(String(process.env.KNOCK_API_KEY));
+
 const ApplyButton = ({ user, company, internship }:
 	{ user: any, company: any, internship: any }) => {
 	const [loading, setLoading] = useState(false);
@@ -40,23 +44,43 @@ const ApplyButton = ({ user, company, internship }:
 		setLoading(true);
 
 		try {
-			const recruiterResponse = await axios.post('/api/send-mail', {
-				to: `${company?.email}`,
-				name: user?.name,
-				subject: `${internship?.name} Application`,
-				body: recruiterEmailTemplate(user, internship),
-			});
-			const applicantResponse = await axios.post('/api/send-mail', {
-				to: `${user?.email}`,
-				name: user?.name,
-				subject: `${internship?.name} Application`,
-				body: applicantEmailTemplate(user, internship),
-			});
 			try {
 				await axios.post('/api/checkApplied', {
 					id: user.id,
 					internshipId: internship.id,
 				});
+
+				await knockClient.workflows.trigger('application-created', {
+					data: {
+						companyName: company.name,
+						name: user.name,
+						email: user.email,
+						primary_action_url: `www.internvista.tech/users/${user.id}`,
+						internshipName: internship.name,
+						internshipUrl: `www.internvista.tech/internships/${internship.id}`
+					},
+					recipients: [
+						{
+							id: `company_${company.userId}`,
+							name: company.name,
+							email: company.email
+						}
+					],
+				})
+
+				await knockClient.workflows.trigger('application-created', {
+					data: {
+						internshipName: internship.name,
+						primary_action_url: `www.internvista.tech/intern/myInternships`
+					},
+					recipients: [
+						{
+							id: user.userId,
+							name: user.name,
+							email: user.email
+						}
+					],
+				})
 			} catch (error) {
 				console.error("Error checking application status:", error);
 			}
