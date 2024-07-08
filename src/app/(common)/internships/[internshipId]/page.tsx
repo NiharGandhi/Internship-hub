@@ -36,7 +36,7 @@ const SelectedInternshipPage = async ({
 }: {
     params: { internshipId: string }
 }) => {
-
+    
     const { userId } = auth();
 
     if (!userId) {
@@ -97,9 +97,9 @@ const SelectedInternshipPage = async ({
                 </div>
             </div>
             <div className='px-2 xl:px-10 space-y-2 xl:mt-4 xl:ml-24 mt-16'>
-                {/* <Link href={`/organizations/${company?.id}`}>
+                <Link href={`/organizations/${company?.id}`}>
                     <h1 className='font-bold text-4xl'>{company?.name}</h1>
-                </Link> */}
+                </Link>
                 <Separator />
                 <div className='py-4'>
                     <Card className='w-full'>
@@ -149,7 +149,9 @@ const SelectedInternshipPage = async ({
                                     </div>
                                 </PopoverContent>
                             </Popover>
-                            <ApplyButton user={user} company={company} internship={internship} />
+                            {user && (
+                                <ApplyButton user={user} company={company} internship={internship} />
+                            )}
                         </CardFooter>
                     </Card>
                 </div>
