@@ -6,11 +6,10 @@ import { client } from '@/lib/prisma';
 import axios from 'axios';
 import { useEffect, useState } from 'react';
 import { useToast } from '../ui/use-toast';
-import { recruiterEmailTemplate, applicantEmailTemplate } from '@/helpers/emailTemplate';
 
 import { Knock } from "@knocklabs/node";
 
-const knockClient = new Knock(String(process.env.KNOCK_API_KEY));
+const knockClient = new Knock(process.env.KNOCK_API_KEY);
 
 const ApplyButton = ({ user, company, internship }:
 	{ user: any, company: any, internship: any }) => {
@@ -61,23 +60,9 @@ const ApplyButton = ({ user, company, internship }:
 					},
 					recipients: [
 						{
-							id: `company_${company.userId}`,
+							id: company.userId,
 							name: company.name,
 							email: company.email
-						}
-					],
-				})
-
-				await knockClient.workflows.trigger('application-created', {
-					data: {
-						internshipName: internship.name,
-						primary_action_url: `www.internvista.tech/intern/myInternships`
-					},
-					recipients: [
-						{
-							id: user.userId,
-							name: user.name,
-							email: user.email
 						}
 					],
 				})

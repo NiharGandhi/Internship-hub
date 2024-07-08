@@ -72,7 +72,7 @@ const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName
 
             await knockClient.workflows.trigger('application-updated', {
                 data: {
-                    internshipName,
+                    internshipName: userId,
                     applicationUrl: "www.internvista.tech/intern/myInternships",
                 },
                 recipients: [
