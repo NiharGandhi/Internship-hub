@@ -9,7 +9,7 @@ import { useToast } from '../ui/use-toast';
 
 import { Knock } from "@knocklabs/node";
 
-const knockClient = new Knock(process.env.KNOCK_API_KEY);
+const knockClient = new Knock(String(process.env.KNOCK_API_KEY));
 
 const ApplyButton = ({ user, company, internship }:
 	{ user: any, company: any, internship: any }) => {
