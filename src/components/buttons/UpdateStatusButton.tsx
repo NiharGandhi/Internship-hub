@@ -13,7 +13,9 @@ import { Knock } from '@knocklabs/node';
 import { useUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
 
-const knockClient = new Knock(String(process.env.NEXT_PUBLIC_KNOCK_SECRET_KEY));
+const KnockSecret = String(process.env.NEXT_PUBLIC_KNOCK_SECRET_KEY)
+
+const knockClient = new Knock(KnockSecret);
 
 const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName, userId } : {
     applicationId: string,

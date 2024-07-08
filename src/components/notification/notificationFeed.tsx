@@ -21,12 +21,15 @@ const NotificationFeed = () => {
 
     if (!user) return;
 
+    const knockApiKey = String(process.env.NEXT_PUBLIC_KNOCK_API_KEY);
+    const feedChannelId = String(process.env.NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID)
+
     return (
         <KnockProvider
-            apiKey={String(process.env.NEXT_PUBLIC_KNOCK_API_KEY)}
+            apiKey={knockApiKey}
             userId={user.id}
         >
-            <KnockFeedProvider feedId={String(process.env.NEXT_PUBLIC_KNOCK_FEED_CHANNEL_ID)}>
+            <KnockFeedProvider feedId={feedChannelId}>
                 <>
                     <NotificationIconButton
                         ref={notifButtonRef}
