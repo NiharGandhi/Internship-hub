@@ -23,6 +23,11 @@ export const INTERNSHIP_FINDER_SIDENAV_ITEMS: SideNavItem[] = [
         icon: <Icon icon="lucide:network" width="24" height="24" />
     },
     {
+        title: 'Projects',
+        path: '/projects',
+        icon: <Icon icon="lucide:folder-kanban" width="24" height="24" />
+    },
+    {
         title: 'Organizations',
         path: '/organizations',
         icon: <Building2Icon width = "24" height = "24" />
@@ -60,6 +65,11 @@ export const RECRUITER_SIDENAV_ITEMS: SideNavItem[] = [
         title: 'Users',
         path: '/users',
         icon: <Icon icon="lucide:user" width="24" height="24" />
+    },
+    {
+        title: 'Projects',
+        path: '/projects',
+        icon: <Icon icon="lucide:folder-kanban" width="24" height="24" />
     },
     {
         title: 'Organizations',
