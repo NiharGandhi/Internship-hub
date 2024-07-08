@@ -21,7 +21,7 @@ import {
 } from "@/components/ui/breadcrumb";
 
 import { client } from '@/lib/prisma';
-import AllPRojectsCard from '@/components/displays/AllProjectsCard';
+import AllProjectsCard from '@/components/displays/AllProjectsCard';
 
 
 const AllProjects = async ({
@@ -70,7 +70,7 @@ const AllProjects = async ({
                         {projects && projects.length > 0 ? (
                             <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
                                 {projects.map((project: any, index: number) => (
-                                    <AllPRojectsCard project={project} key={index} />
+                                    <AllProjectsCard project={project} key={index} />
 
                                 ))}
                             </div>

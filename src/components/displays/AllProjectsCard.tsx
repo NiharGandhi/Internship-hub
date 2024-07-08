@@ -11,7 +11,7 @@ import FallBackImage from '../../../public/images/fallback.png';
 import { redirect } from 'next/navigation'
 import { client } from '@/lib/prisma'
 
-const AllPRojectsCard = async ({
+const AllProjectsCard = async ({
     project
 }: { project: any }) => {
 
@@ -61,4 +61,4 @@ const AllPRojectsCard = async ({
     )
 }
 
-export default AllPRojectsCard
+export default AllProjectsCard
