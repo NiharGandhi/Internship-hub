@@ -40,6 +40,9 @@ model User {
 
   sentMessages Message[] @relation("UserSentMessages")
   receivedMessages Message[] @relation("UserReceivedMessages")
+
+  connectRequestsSent ConnectRequest[] @relation("Sender")
+  connectRequestsReceived ConnectRequest[] @relation("Receiver")
 }
 
 enum UserRole {
@@ -115,6 +118,9 @@ model Company {
   projects CreateInternship[]
   sentMessages Message[] @relation("CompanySentMessages")
   receivedMessages Message[] @relation("CompanyReceivedMessages")
+
+  connectRequestsSent ConnectRequest[] @relation("CompanySender")
+  connectRequestsReceived ConnectRequest[] @relation("CompanyReceiver")
 }
 
 model CreateInternship {
@@ -164,4 +170,25 @@ model Message {
   receiverCompany Company?      @relation("CompanyReceivedMessages", fields: [receiverCompanyId], references: [id])
   applicationId   String        
   application     Application   @relation(fields: [applicationId], references: [id])
+}
+
+model ConnectRequest {
+  id String @id @default(uuid()) @map("_id")
+  senderUserId String?
+  senderUser User? @relation("Sender", fields: [senderUserId], references: [id])
+  receiverUserId String?
+  receiverUser User? @relation("Receiver", fields: [receiverUserId], references: [id])
+  senderCompanyId String?
+  senderCompany Company? @relation("CompanySender", fields: [senderCompanyId], references: [id])
+  receiverCompanyId String?
+  receiverCompany Company? @relation("CompanyReceiver", fields: [receiverCompanyId], references: [id])
+  status ConnectStatus @default(PENDING)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum ConnectStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }

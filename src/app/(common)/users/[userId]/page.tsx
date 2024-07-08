@@ -33,6 +33,7 @@ import { SocialIcon } from 'react-social-icons';
 import { client } from '@/lib/prisma';
 import ProjectCard from '@/components/displays/ProjectCard';
 import CertificateCard from '@/components/displays/CertificateCard';
+import ConnectionButton from '@/components/buttons/ConnectButton';
 
 
 const UserPublicPage = async ({
@@ -69,7 +70,6 @@ const UserPublicPage = async ({
 
     const displayedCertificates = certificates.slice(0, 6);
 
-
     return (
         <div>
             <Breadcrumb className='mt-2'>
@@ -91,9 +91,12 @@ const UserPublicPage = async ({
             <div className='py-4'>
                 <Card>
                     <CardHeader>
-                        <CardTitle className='font-bold flex'>
-                            {user?.name}
-                            <span className='ml-2'>{user?.verified && <BadgeCheckIcon />}</span>
+                        <CardTitle className='font-bold flex justify-between items-center'>
+                            <div>
+                                {user?.name}
+                                <span className='ml-2'>{user?.verified && <BadgeCheckIcon />}</span>
+                            </div>
+                            <ConnectionButton targetUserId={user!.id} />
                         </CardTitle>
                         <CardDescription>{user?.InstitutionName}</CardDescription>
                     </CardHeader>

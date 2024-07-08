@@ -57,9 +57,9 @@ const HeaderMobile = () => {
         }
     }, [user]);
 
-    if (!isLoaded) {
-        return <Spinner />;
-    }
+    // if (!isLoaded) {
+    //     return <Spinner />;
+    // }
 
     return (
         <motion.nav
