@@ -51,12 +51,9 @@ const ApplyButton = ({ user, company, internship }:
 
 				await knockClient.workflows.trigger('application-created', {
 					data: {
-						companyName: company.name,
 						name: user.name,
 						email: user.email,
 						primary_action_url: `www.internvista.tech/users/${user.id}`,
-						internshipName: internship.name,
-						internshipUrl: `www.internvista.tech/internships/${internship.id}`
 					},
 					recipients: [
 						{
