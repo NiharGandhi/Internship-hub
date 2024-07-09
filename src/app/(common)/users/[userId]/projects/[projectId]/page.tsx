@@ -72,7 +72,7 @@ const PublicProjectPage = async ({
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <div className=''>
+            <div>
                 <div className='flex items-center'>
                     <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
                         <InfoIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
