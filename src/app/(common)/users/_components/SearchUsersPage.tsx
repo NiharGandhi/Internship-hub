@@ -80,7 +80,7 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
     const filteredUsers = users.filter((user: { name: string; skills: string; InstitutionName: string; EducationLevel: string; verified: boolean }) =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
         (selectedSkill === '' || (user.skills && user.skills.toLowerCase().includes(selectedSkill.toLowerCase()))) &&
-        (selectedInstitution === '' || user.InstitutionName.toLowerCase().includes(selectedInstitution.toLowerCase())) &&
+        (selectedInstitution === '' || (user.InstitutionName && user.InstitutionName.toLowerCase().includes(selectedInstitution.toLowerCase()))) &&
         (selectedEducationLevel === '' || user.EducationLevel === selectedEducationLevel) &&
         (selectedVerified === '' || (selectedVerified === 'verified' && user.verified) || (selectedVerified === 'unverified' && !user.verified))
     );
