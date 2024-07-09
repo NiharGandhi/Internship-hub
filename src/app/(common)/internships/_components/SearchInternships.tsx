@@ -264,7 +264,7 @@ const SearchInternshipsPage = ({ internships } : { internships : any }) => {
                                 </div>
                                 <div>
                                     <p className='text-muted-foreground'>Description: </p>
-                                    <p className='whitespace-pre-wrap'>{internship.InternshipDescription}</p>
+                                    <p className='whitespace-pre-wrap line-clamp-3'>{internship.InternshipDescription}</p>
                                 </div>
                             </div>
                         </CardContent>

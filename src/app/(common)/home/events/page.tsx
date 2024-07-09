@@ -5,6 +5,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 import { isBefore } from 'date-fns';
 import useEvents from '@/hooks/events/useEvents';
 import EventCard from '@/components/displays/EventCard';
+import { Spinner } from '@/components/spinner';
 
 
 const EventsPage = () => {
@@ -13,6 +14,10 @@ const EventsPage = () => {
     const currentDate = new Date();
     const pastEvents = events.filter(event => isBefore(new Date(event.dateTime), currentDate));
     const upcomingEvents = events.filter(event => !isBefore(new Date(event.dateTime), currentDate));
+
+    if (loading) {
+        return <Spinner />
+    }
 
     return (
         <div>

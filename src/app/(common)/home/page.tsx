@@ -8,84 +8,107 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import useEvents from '@/hooks/events/useEvents';
 import useOnlineResources from '@/hooks/resources/useOnlineResource';
+import { Company, CreateInternship, User } from '@/types/interfaces';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react';
 
-const Home = () => {
-
-    const { user, isLoaded } = useUser();
-
-    const { events } = useEvents();
-    const { onlineResources } = useOnlineResources();
-
+const useUserData = (user: any) => {
+    const [userData, setUserData] = useState<User | null>(null);
+    const [orgData, setOrgData] = useState<Company | null>(null);
     const [loading, setLoading] = useState(true);
-    const [userData, setUserData] = useState<any>();
-    const [orgData, setOrgData] = useState<any>();
-    const [internshipsData, setInternshipsData] = useState<any>([]);
+    const [userType, setUserType] = useState<string | undefined>("INTERNSHIP_FINDER");
+    const [userName, setUserName] = useState<string | null>("");
+
+    const fetchUserData = useCallback(async () => {
+        try {
+            const response = await axios.get("/api/user");
+            setUserData(response.data);
+        } catch (error) {
+            console.error("Error fetching user data:", error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    const fetchOrgData = useCallback(async () => {
+        try {
+            const response = await axios.get("/api/myOrganization");
+            setOrgData(response.data);
+        } catch (error) {
+            console.error("Error fetching organization data:", error);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
 
     useEffect(() => {
         if (user) {
             const userType = user.publicMetadata?.userType;
+            setUserType(userType);
 
-            // Redirect or manage access based on userType
             if (userType === 'INTERNSHIP_FINDER') {
                 fetchUserData();
             } else if (userType === 'RECRUITER') {
                 fetchOrgData();
             } else {
-                redirect('/'); // Handle unexpected user types
+                redirect('/');
             }
         }
-    }, [user]);
+    }, [user, fetchUserData, fetchOrgData]);
 
+    useEffect(() => {
+        if (userData) {
+            setUserName(userData.name);
+        } else if (orgData) {
+            setUserName(orgData.name);
+        } else {
+            setUserName("")
+        }
+    }, [userData, orgData]);
 
-    const fetchUserData = async () => {
-        try {
-            const response = await axios.get("/api/user");
-            setUserData(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-            setLoading(false);
-        }
-    };
-    
-    const fetchOrgData = async () => {
-        try {
-            const response = await axios.get("/api/myOrganization");
-            setOrgData(response.data);
-            setLoading(false);
-        } catch (error) {
-            console.error("Error fetching user data:", error);
-            setLoading(false);
-        }
-    };
+    return { userName, userType, userData, orgData, loading };
+};
+
+const useInternshipsData = () => {
+    const [internshipsData, setInternshipsData] = useState<CreateInternship[]>([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchInternshipData = async () => {
             try {
                 const response = await axios.get("/api/allInternships");
                 setInternshipsData(response.data);
-                setLoading(false);
             } catch (error) {
-                console.error("Error fetching user data:", error);
+                console.error("Error fetching internships data:", error);
+            } finally {
                 setLoading(false);
             }
         };
+
         fetchInternshipData();
     }, []);
 
-    if (loading) return <Spinner />
+    return { internshipsData, loading };
+};
 
-    // console.log(userData);
+const Home = () => {
+    const { user, isLoaded } = useUser();
+    const { events } = useEvents();
+    const { onlineResources } = useOnlineResources();
+    const { userName, userType, userData, orgData, loading: userLoading } = useUserData(user);
+    const { internshipsData, loading: internshipsLoading } = useInternshipsData();
 
-    if (userData === null && !loading) {
+    if (userLoading || internshipsLoading) return <Spinner />
+
+    if (userType === "INTERNSHIP_FINDER" && userData === null && !userLoading) {
         return (
             <div className="flex flex-col items-center justify-center min-h-screen">
-                <p className="mb-4 text-lg text-gray-700 dark:text-gray-300">Please complete your profile to access the app&apos;s features.</p>
+                <p className="mb-4 text-lg text-gray-700 dark:text-gray-300">
+                    Please complete your profile to access the app&apos;s features.
+                </p>
                 <Link href="/intern/myProfile">
                     <Button>My Profile</Button>
                 </Link>
@@ -93,29 +116,50 @@ const Home = () => {
         );
     }
 
-  return (
-    <div>
-        <div className='mt-4'>
-            <span className='font-normal text-4xl'>Welcome 👋</span>
+    if (userType === "RECRUITER" && orgData === null && !userLoading) {
+        return (
+            <div className="flex flex-col items-center justify-center min-h-screen">
+                <p className="mb-4 text-lg text-gray-700 dark:text-gray-300">
+                    Please complete your profile to access the app&apos;s features.
+                </p>
+                <Link href="/recruiter/myOrganization">
+                    <Button>My Organization</Button>
+                </Link>
+            </div>
+        );
+    }
+
+    return (
+        <div>
+            <div className='mt-4'>
+                <span className='font-normal text-4xl'>Welcome <span className='font-semibold'>{userName}</span>👋</span>
+            </div>
+            <Card className='border-orange mt-4'>
+                <CardHeader className='font-semibold text-2xl'>Internships</CardHeader>
+                <CardContent>
+                    <DisplayInternshipsPage internships={internshipsData} />
+                </CardContent>
+            </Card>
+            <Card className='border-orange mt-4'>
+                <CardContent>
+                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 py-4">
+                        <ResourceCard
+                            resources={onlineResources}
+                            title='Online Resources'
+                            cardDesc='Useful links and resources for interns'
+                        />
+                        <EventCard
+                            events={events}
+                            title='Upcoming Events'
+                            desc='Events you may be interested in'
+                            upcomingEventsActive
+                            pastEventsActive={false}
+                        />
+                    </div>
+                </CardContent>
+            </Card>
         </div>
-        <Card className='border-orange mt-4'>
-            <CardHeader className='font-semibold text-2xl'>
-                Internships
-            </CardHeader>
-            <CardContent>
-                <DisplayInternshipsPage internships={internshipsData} />
-            </CardContent>
-        </Card>
-          <Card className='border-orange mt-4'>
-            <CardContent>
-                <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 py-4">
-                    <ResourceCard resources={onlineResources} title='Online Resouces' cardDesc='Useful links and resources for interns' />
-                    <EventCard events={events} title='Upcoming Events' desc='Events you may be interested in' upcomingEventsActive pastEventsActive={false} />
-                </div>
-            </CardContent>
-        </Card>
-    </div>
-  )
+    );
 }
 
-export default Home
+export default Home;

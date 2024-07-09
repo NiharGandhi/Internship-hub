@@ -11,6 +11,7 @@ import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbP
 
 import { client } from '@/lib/prisma';
 import ConnectionUsersPage from '../_components/ConnectionUsersPage';
+import SenderConnectionPage from '../_components/SenderConnectionPage';
 
 const Connections = async () => {
     const { userId } = auth();
@@ -35,6 +36,16 @@ const Connections = async () => {
         }
     })
 
+    const senderConnections = await client.connectRequest.findMany({
+        where: {
+            senderUserId: userId,
+            status: "ACCEPTED"
+        },
+        include: {
+            receiverUser: true
+        }
+    })
+
     return (
         <div>
             <Breadcrumb className='mt-3 lg:ml-10'>
@@ -49,11 +60,15 @@ const Connections = async () => {
                 </BreadcrumbList>
             </Breadcrumb>
             <h1 className='font-bold text-4xl mt-2 lg:px-10'>My Connects</h1>
-            {users && users.length > 0 ? (
-                <ConnectionUsersPage userId={userId} users={users} />
-            ) : (
-                <div className='flex justify-center items-center h-screen'>
-                    <p className='text-muted-foreground'>No Connection Requests :(</p>
+            {senderConnections.length > 0 && (
+                <SenderConnectionPage userId={user!.userId} users={senderConnections} />
+            )}
+            {users.length > 0 && (
+                <ConnectionUsersPage userId={user!.userId} users={users} />
+            )}
+            {senderConnections.length === 0 && users.length === 0 && (
+                <div className="flex justify-center items-center h-screen">
+                    <p className="text-muted-foreground">No Connection Requests :(</p>
                 </div>
             )}
         </div>

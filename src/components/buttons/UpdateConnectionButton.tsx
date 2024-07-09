@@ -1,16 +1,13 @@
-// components/UpdateStatusButton.js
-"use client";
+// components/UpdateConnectionStatus.js
 
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
-import { SetStateAction, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useToast } from '../ui/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
 
-const UpdateConnectionStatus = ({ connectionId }: {
-    connectionId: string
-}) => {
+const UpdateConnectionStatus = ({ connectionId }: { connectionId: string }) => {
     const [loading, setLoading] = useState(false);
     const [status, setStatus] = useState('PENDING'); // Initial status
 
@@ -20,20 +17,11 @@ const UpdateConnectionStatus = ({ connectionId }: {
         const checkApplicationStatus = async () => {
             try {
                 const response = await axios.get('/api/connectionStatus', {
-                    params: {
-                        connectionId: connectionId,
-                    },
+                    params: { connectionId }
                 });
 
-                if ((response.data === "ACCEPTED")) {
-                    setStatus("ACCEPTED");
-                }
-                else if (response.data === "REJECTED") {
-                    setStatus("REJECTED");
-                }
-                else {
-                    setStatus("PENDING");
-                }
+                const newStatus = response.data;
+                setStatus(newStatus);
             } catch (error) {
                 console.error("Error checking application status:", error);
             }
@@ -42,58 +30,74 @@ const UpdateConnectionStatus = ({ connectionId }: {
         checkApplicationStatus();
     }, [connectionId]);
 
-    const updateStatus = async (newStatus: SetStateAction<string>) => {
+    const updateStatus = async (newStatus : string) => {
         setLoading(true);
 
         try {
-            await axios.post('/api/connectionStatus', {
-                connectionId: connectionId,
-                status: newStatus,
-            });
+            if (newStatus === "ACCEPTED" || newStatus === "PENDING") {
+                await axios.post('/api/connectionStatus', {
+                    connectionId,
+                    status: newStatus
+                });
 
-            setStatus(newStatus); // Update the status in the component state
+                setStatus(newStatus); // Update the status in the component state
 
-            toast({
-                title: "Status Updated",
-                description: `Connection status updated to ${newStatus}`,
-            });
+                toast({
+                    title: "Status Updated",
+                    description: `Connection status updated to ${newStatus}`
+                });
+            } else if (newStatus === "REJECTED") {
+                await axios.post('/api/deleteConnection', {
+                    id: connectionId
+                });
+
+                toast({
+                    title: "Connect Successfully Deleted"
+                })
+
+                window.location.reload();
+
+            }
         } catch (error) {
             toast({
                 title: "Error Updating Status",
-                description: "Try again later",
+                description: "Try again later"
             });
+            console.log(error);
         } finally {
             setLoading(false);
         }
     };
 
+    const getStatusButtonStyle = () => {
+        let buttonStyle = '';
+
+        switch (status) {
+            case 'PENDING':
+                buttonStyle = 'bg-slate-400';
+                break;
+            case 'ACCEPTED':
+                buttonStyle = 'bg-green-400';
+                break;
+            case 'REJECTED':
+                buttonStyle = 'bg-red-400';
+                break;
+            default:
+                buttonStyle = 'bg-slate-400';
+        }
+
+        return buttonStyle;
+    };
+
     return (
         <div className='ml-2'>
             <DropdownMenu>
-                {status === "PENDING" && (
-                    <DropdownMenuTrigger className='ml-auto' disabled={loading}>
-                        <Button className='bg-slate-400' variant='outline'>
-                            {status}
-                            <ChevronDown className='ml-1 w-6 h-6' />
-                        </Button>
-                    </DropdownMenuTrigger>
-                )}
-                {status === "ACCEPTED" && (
-                    <DropdownMenuTrigger className='ml-auto' disabled={loading}>
-                        <Button className='bg-green-400' variant='outline'>
-                            {status}
-                            <ChevronDown className='ml-1 w-6 h-6' />
-                        </Button>
-                    </DropdownMenuTrigger>
-                )}
-                {status === "REJECTED" && (
-                    <DropdownMenuTrigger className='ml-auto'>
-                        <Button className='bg-red-400' variant='outline'>
-                            {status}
-                            <ChevronDown className='ml-1 w-6 h-6' />
-                        </Button>
-                    </DropdownMenuTrigger>
-                )}
+                <DropdownMenuTrigger className='ml-auto' disabled={loading}>
+                    <Button className={getStatusButtonStyle()} variant='outline'>
+                        {status}
+                        <ChevronDown className='ml-1 w-6 h-6' />
+                    </Button>
+                </DropdownMenuTrigger>
                 <DropdownMenuContent>
                     <DropdownMenuLabel>Status</DropdownMenuLabel>
                     <DropdownMenuSeparator />

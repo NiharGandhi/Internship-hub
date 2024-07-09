@@ -4,18 +4,41 @@ import React, { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import axios from 'axios';
 import { useToast } from '../ui/use-toast';
-import { auth } from '@clerk/nextjs';
+
+import { Knock } from "@knocklabs/node";
+import { useUser } from '@clerk/nextjs';
+
+const KnockSecret = String(process.env.NEXT_PUBLIC_KNOCK_API_KEY)
+
+const knockClient = new Knock("sk_ylMYMj2CN3mm6F2l--Xkqg-5gBI1LVm3n85-2E6UAok");
 
 interface ConnectionButtonProps {
     targetUserId: string;
-}
+    knockReceiverId: string;
+};
 
-const sendConnectionRequest = async (targetUserId: string) => {
+const sendConnectionRequest = async (targetUserId: string, knockReceiverId: string) => {
 
     try {
         const response = await axios.post('/api/checkConnection', {
             targetUserId: targetUserId
         });
+
+        console.log("TG: ", targetUserId);
+
+        const sender = await axios.get('/api/user');
+
+        await knockClient.workflows.trigger('connect-request', {
+            data: {
+                connectReqUrl: "https://www.internvista.tech/connects"
+            },
+            recipients: [
+                {
+                    id: knockReceiverId,
+                    name: sender.data.name,
+                }
+            ],
+        })
 
         if (!response) {
             throw new Error('Failed to send connection request');
@@ -28,7 +51,7 @@ const sendConnectionRequest = async (targetUserId: string) => {
     }
 };
 
-const ConnectionButton: React.FC<ConnectionButtonProps> = ({ targetUserId }) => {
+const ConnectionButton: React.FC<ConnectionButtonProps> = ({ targetUserId, knockReceiverId }) => {
 
     const { toast } = useToast();
     const [connection, setConnection] = useState('')
@@ -57,7 +80,7 @@ const ConnectionButton: React.FC<ConnectionButtonProps> = ({ targetUserId }) => 
     }, [targetUserId]);
 
     const handleClick = async () => {
-        const responseMessage = await sendConnectionRequest(targetUserId);
+        const responseMessage = await sendConnectionRequest(targetUserId, knockReceiverId);
         toast({
             title: responseMessage
         })

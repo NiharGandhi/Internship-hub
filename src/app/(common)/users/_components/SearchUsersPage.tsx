@@ -1,12 +1,11 @@
 "use client";
 
+// SearchUsersPage.tsx
+import { auth } from '@clerk/nextjs/server';
 import React, { useEffect, useState } from 'react';
-
 import { format } from 'date-fns';
-
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-
+import { redirect, useRouter } from 'next/navigation';
 import {
     Card,
     CardContent,
@@ -21,7 +20,6 @@ import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
 import { useToast } from '@/components/ui/use-toast';
-
 import { BadgeCheckIcon, ChevronsUpDown } from 'lucide-react';
 import { SocialIcon } from 'react-social-icons';
 
@@ -42,52 +40,47 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
     const [openVerified, setOpenVerified] = useState(false); // State for verified filter popover
 
     const { toast } = useToast();
+    const router = useRouter();
 
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text)
-            .then(() => {
-                toast({
-                    title: "Email Copied to Clipboard",
-                });
-            })
-            .catch((err) => {
-                toast({
-                    title: "Error",
-                    description: "Error Copying Email",
-                });
-            });
-    };
-
-    // Extract all unique values for skills, institution, and education level
     useEffect(() => {
-        const allSkills: Set<string> = new Set();
-        const allInstitutions: Set<string> = new Set();
-        const allEducationLevels: Set<string> = new Set();
+        if (!userId) {
+            redirect("/");
+        }
+    }, [userId]);
 
-        users.forEach((user: { skills: string; InstitutionName: string; EducationLevel: string; }) => {
-            // Extract skills
-            if (user.skills) {
-                user.skills.split(',').map(skill => skill.trim()).forEach(skill => allSkills.add(skill));
-            }
-            // Extract institutions
-            if (user.InstitutionName) {
-                allInstitutions.add(user.InstitutionName);
-            }
-            // Extract education levels
-            if (user.EducationLevel) {
-                allEducationLevels.add(user.EducationLevel);
-            }
-        });
+    useEffect(() => {
+        const fetchFilters = () => {
+            const allSkills: Set<string> = new Set();
+            const allInstitutions: Set<string> = new Set();
+            const allEducationLevels: Set<string> = new Set();
 
-        setSkills(Array.from(allSkills));
-        setInstitutions(Array.from(allInstitutions));
-        setEducationLevels(Array.from(allEducationLevels));
+            users.forEach((user: { skills: string; InstitutionName: string; EducationLevel: string; }) => {
+                // Extract skills
+                if (user.skills) {
+                    user.skills.split(',').map(skill => skill.trim()).forEach(skill => allSkills.add(skill));
+                }
+                // Extract institutions
+                if (user.InstitutionName) {
+                    allInstitutions.add(user.InstitutionName);
+                }
+                // Extract education levels
+                if (user.EducationLevel) {
+                    allEducationLevels.add(user.EducationLevel);
+                }
+            });
+
+            setSkills(Array.from(allSkills));
+            setInstitutions(Array.from(allInstitutions));
+            setEducationLevels(Array.from(allEducationLevels));
+        };
+
+        fetchFilters();
     }, [users]);
 
     const filteredUsers = users.filter((user: { name: string; skills: string; InstitutionName: string; EducationLevel: string; verified: boolean }) =>
         user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
         (selectedSkill === '' || (user.skills && user.skills.toLowerCase().includes(selectedSkill.toLowerCase()))) &&
-        (selectedInstitution === '' || user.InstitutionName === selectedInstitution) &&
+        (selectedInstitution === '' || user.InstitutionName.toLowerCase().includes(selectedInstitution.toLowerCase())) &&
         (selectedEducationLevel === '' || user.EducationLevel === selectedEducationLevel) &&
         (selectedVerified === '' || (selectedVerified === 'verified' && user.verified) || (selectedVerified === 'unverified' && !user.verified))
     );
@@ -101,7 +94,7 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
         return format(new Date(dateString), 'dd MMMM yyyy');
     };
 
-    const handleSearchChange = (e: { target: { value: React.SetStateAction<string>; }; }) => {
+    const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
         setCurrentPage(1);
     };
@@ -150,9 +143,20 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
         setCurrentPage(1);
     };
 
-    if (!userId) {
-        return redirect("/");
-    }
+    const copyToClipboard = (text: string) => {
+        navigator.clipboard.writeText(text)
+            .then(() => {
+                toast({
+                    title: "Email Copied to Clipboard",
+                });
+            })
+            .catch((err) => {
+                toast({
+                    title: "Error",
+                    description: "Error Copying Email",
+                });
+            });
+    };
 
     return (
         <div>
@@ -305,7 +309,7 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
                 </Popover>
                 <Button variant="ghost" onClick={clearFilters}>Clear Filters</Button>
                 {/* User Cards */}
-                {currentUsers.map((user: { id: React.Key | null | undefined; name: string; InstitutionName: string; skills: string; EducationLevel: string; GraduationDate: string | number | Date; email: string; verified: Boolean; linkedInLink: string; instagramLink: string; xLink: string; }) => (
+                {currentUsers.map((user: { id: string; name: string; InstitutionName: string; skills: string; EducationLevel: string; GraduationDate: string | number | Date; email: string; verified: boolean; linkedInLink: string; instagramLink: string; xLink: string; }) => (
                     <Card key={user.id} className='mb-4'>
                         <CardHeader>
                             <CardTitle className='font-bold flex'>
@@ -370,9 +374,11 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
                                     </div>
                                 </PopoverContent>
                             </Popover>
-                            <Link className='ml-auto' href={`/users/${user.id}`}>
-                                <Button>Explore</Button>
-                            </Link>
+                            <Button className="ml-auto" onClick={() => {
+                                router.replace(`/users/${user.id}`)
+                            }}>
+                                Explore
+                            </Button>
                         </CardFooter>
                     </Card>
                 ))}

@@ -19,6 +19,7 @@ import useUsefulTool from '@/hooks/resources/useTool';
 import ResourceCard from '@/components/displays/ResourceCard';
 import OnlineBookCard from '@/components/displays/OnlineBooksCard';
 import UsefulToolCard from '@/components/displays/UsefulToolCard';
+import { Spinner } from '@/components/spinner';
 
 
 
@@ -27,6 +28,10 @@ const ResourcesPage = () => {
     const { onlineResources, loadingRes, errorRes } = useOnlineResources();
     const { recommendedBooks, loadingBooks, errorBooks } = useRecommendedBooks();
     const { usefulTools, loadingTools, errorTools } = useUsefulTool();
+
+    if (loadingRes || loadingBooks || loadingTools) {
+        return <Spinner />
+    }
 
     return (
         <div>

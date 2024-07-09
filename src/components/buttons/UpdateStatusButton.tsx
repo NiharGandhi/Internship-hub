@@ -7,7 +7,6 @@ import { SetStateAction, useEffect, useState } from 'react';
 import { useToast } from '../ui/use-toast';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '../ui/dropdown-menu';
 import { ChevronDown } from 'lucide-react';
-import { applicationStatusChange } from '@/helpers/emailTemplate';
 
 import { Knock } from '@knocklabs/node';
 import { useUser } from '@clerk/nextjs';
@@ -73,7 +72,7 @@ const UpdateStatusButton = ({ applicationId, userEmail, userName, internshipName
             await knockClient.workflows.trigger('application-updated', {
                 data: {
                     internshipName,
-                    applicationUrl: "www.internvista.tech/intern/myInternships",
+                    applicationUrl: "https://www.internvista.tech/intern/myInternships",
                 },
                 recipients: [
                     {

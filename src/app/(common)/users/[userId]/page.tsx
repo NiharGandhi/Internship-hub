@@ -92,11 +92,13 @@ const UserPublicPage = async ({
                 <Card>
                     <CardHeader>
                         <CardTitle className='font-bold flex justify-between items-center'>
-                            <div>
+                            <div className='flex'>
                                 {user?.name}
                                 <span className='ml-2'>{user?.verified && <BadgeCheckIcon />}</span>
                             </div>
-                            <ConnectionButton targetUserId={user!.id} />
+                            {userId !== user!.userId && (
+                                <ConnectionButton targetUserId={user!.id} knockReceiverId={user!.userId} />
+                            )}
                         </CardTitle>
                         <CardDescription>{user?.InstitutionName}</CardDescription>
                     </CardHeader>

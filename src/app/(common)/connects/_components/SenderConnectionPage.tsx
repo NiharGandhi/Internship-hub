@@ -26,7 +26,7 @@ import { BadgeCheckIcon, ChevronsUpDown } from 'lucide-react';
 import { SocialIcon } from 'react-social-icons';
 import UpdateConnectionStatus from '@/components/buttons/UpdateConnectionButton';
 
-const ConnectionUsersPage = ({ userId, users }: { userId: string, users: any }) => {
+const SenderConnectionPage = ({ userId, users }: { userId: string, users: any }) => {
     const { toast } = useToast();
 
     const formatDate = (dateString: string | number | Date) => {
@@ -46,16 +46,16 @@ const ConnectionUsersPage = ({ userId, users }: { userId: string, users: any }) 
                         <CardHeader>
                             <CardTitle className='font-bold flex justify-between items-center'>
                                 <div>
-                                    {user.senderUser.name}
+                                    {user.receiverUser.name}
                                     <span className='ml-2'>{user?.verified && <BadgeCheckIcon />}</span>
                                 </div>
                                 <UpdateConnectionStatus connectionId={user.id} />
                             </CardTitle>
-                            <CardDescription>{user.senderUser.InstitutionName}</CardDescription>
+                            <CardDescription>{user.receiverUser.InstitutionName}</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className='sm:flex-col space-x-1'>
-                                {user.senderUser.skills ? user.senderUser.skills.split(',').map((skill: string, index: number) => (
+                                {user.receiverUser.skills ? user.receiverUser.skills.split(',').map((skill: string, index: number) => (
                                     <Badge key={index}>{skill.trim()}</Badge>
                                 )) : (
                                     <p className='text-sm text-muted'>No Skills Added</p>
@@ -65,21 +65,21 @@ const ConnectionUsersPage = ({ userId, users }: { userId: string, users: any }) 
                                 <div className='flex'>
                                     Education Level: {
                                         <div className='ml-1 font-semibold'>
-                                            {user.senderUser.EducationLevel}
+                                            {user.receiverUser.EducationLevel}
                                         </div>
                                     }
                                 </div>
                                 <div className='flex'>
                                     Graduation Date: {
                                         <div className='ml-1 font-semibold'>
-                                            {formatDate(user.senderUser.GraduationDate)}
+                                            {formatDate(user.receiverUser.GraduationDate)}
                                         </div>
                                     }
                                 </div>
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Link href={`/users/${user.senderUser.id}`} className='ml-auto'>
+                            <Link href={`/users/${user.receiverUser.id}`} className='ml-auto'>
                                     <Button>
                                         Explore
                                     </Button>
@@ -92,4 +92,4 @@ const ConnectionUsersPage = ({ userId, users }: { userId: string, users: any }) 
     );
 };
 
-export default ConnectionUsersPage;
+export default SenderConnectionPage;
