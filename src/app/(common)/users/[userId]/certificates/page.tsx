@@ -84,7 +84,7 @@ const ProjectsPage = async ({
                         {certificates && certificates.length > 0 ? (
                             <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
                                 {certificates.map((project: any, index: number) => (
-                                    <ProjectCard project={project} key={index} />
+                                    <ProjectCard project={project} key={index} id={user!.id}/>
 
                                 ))}
                             </div>
