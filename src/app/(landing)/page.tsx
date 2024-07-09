@@ -1,29 +1,20 @@
 'use client';
 
-import EventCard from '@/components/displays/EventCard';
-import ResourceCard from '@/components/displays/ResourceCard';
+import Head from 'next/head';
 import DisplayInternshipsPage from '@/components/displays/home-internships-display';
 import { Spinner } from '@/components/spinner';
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import useEvents from '@/hooks/events/useEvents';
 import useOnlineResources from '@/hooks/resources/useOnlineResource';
-import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
-import { CheckIcon, XIcon } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react';
 
 import HeroImage from "../../../public/images/placeholder.png";
-import FetaureImage from "../../../public/images/features.jpeg";
 
 const Home = () => {
-
-    const { events } = useEvents();
-    const { onlineResources } = useOnlineResources();
-
     const [loading, setLoading] = useState(true);
     const [internshipsData, setInternshipsData] = useState<any>([]);
 
@@ -41,22 +32,10 @@ const Home = () => {
         fetchInternshipData();
     }, []);
 
-    if (loading) return <Spinner />
-
+    if (loading) return <Spinner />;
 
     return (
         <div>
-            <div className='mt-4'>
-                <span className='font-normal text-4xl'>Welcome 👋</span>
-            </div>
-            <Card className='border-orange mt-4 w-[350px] lg:w-full'>
-                <CardHeader className='font-semibold text-2xl'>
-                    Internships
-                </CardHeader>
-                <CardContent>
-                    <DisplayInternshipsPage internships={internshipsData} />
-                </CardContent>
-            </Card>
             <main className="flex-1">
                 <section className="py-12">
                     <div className="container px-4 md:px-6">
@@ -83,23 +62,23 @@ const Home = () => {
                                 src={HeroImage}
                                 alt="Hero"
                                 className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center w-full lg:order-last"
-                                width={"550"}
-                                height={"310"}
+                                width={550}
+                                height={310}
                             />
                         </div>
                     </div>
                 </section>
             </main>
-            {/* <Card className='border-orange mt-4'>
+            <Card className='border-orange mt-4 w-[350px] lg:w-full'>
+                <CardHeader className='font-semibold text-2xl'>
+                    Internships
+                </CardHeader>
                 <CardContent>
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 py-4">
-                        <ResourceCard resources={onlineResources} title='Online Resouces' cardDesc='Useful links and resources for interns' />
-                        <EventCard events={events} title='Upcoming Events' desc='Events you may be interested in' upcomingEventsActive pastEventsActive={false} />
-                    </div>
+                    <DisplayInternshipsPage internships={internshipsData} />
                 </CardContent>
-            </Card> */}
+            </Card>
         </div>
-    )
+    );
 }
 
-export default Home
+export default Home;

@@ -37,6 +37,14 @@ export default function RootLayout({
             defer
             src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API}&libraries=places`}
           ></script>
+          <title>InternVista</title>
+          <meta name="description" content="InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for internship opportunities." />
+          <meta name="keywords" content="internships, internship opportunities, student internships, InternVista" />
+          <meta property="og:title" content="InternVista - Find Your Dream Internship" />
+          <meta property="og:description" content="InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for internship opportunities." />
+          <meta property="og:image" content="/images/placeholder.png" />
+          <meta property="og:url" content="https://example.com/" />
+          <meta name="twitter:card" content="summary_large_image" />
         </head>
         <body className={`bg-white ${inter.className}`}>
           <div className="flex">
