@@ -36,7 +36,11 @@ const AllProjectsCard = async ({
                         alt='Project Image'
                         width={400}
                         height={40}
-                        className='rounded-xl p-2 w-[292px] lg:w-[386px] h-[180px] lg:h-[200px]'
+                        style={{
+                            maxWidth: '100%',
+                            height: 'auto',
+                        }}
+                        className='rounded-xl p-2'
                     />
                 ) : (
                         <Image
@@ -44,7 +48,11 @@ const AllProjectsCard = async ({
                             alt='Project Image'
                             width={400}
                             height={40}
-                            className='rounded-xl p-2 w-[292px] lg:w-[386px] h-[180px] lg:h-[200px]'
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
+                            className='rounded-xl p-2'
                         />
                 )}
                 <CardHeader>

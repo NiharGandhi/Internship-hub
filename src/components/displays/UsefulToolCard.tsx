@@ -35,7 +35,7 @@ const UsefulToolCard: React.FC<UsefulToolProps> = ({ resources, title, cardDesc 
                                         <PenToolIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
                                     </div>
                                     {resource.link ? (
-                                        <Link href={resource.link} rel="noopener noreferrer" target="_blank">
+                                        <Link className='w-52 lg:w-72' href={resource.link} rel="noopener noreferrer" target="_blank">
                                             <div>
                                                 <h3 className="text-lg font-semibold">{resource.name}</h3>
                                                 <p className="text-sm text-gray-500 dark:text-gray-400">{resource.desc}</p>

@@ -68,7 +68,7 @@ const AllProjects = async ({
                     </CardHeader>
                     <CardContent>
                         {projects && projects.length > 0 ? (
-                            <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
                                 {projects.map((project: any, index: number) => (
                                     <AllProjectsCard project={project} key={index} />
 

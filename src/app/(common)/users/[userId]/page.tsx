@@ -27,7 +27,7 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { ArrowBigRight, BadgeCheckIcon, CalendarIcon, DownloadCloudIcon, FileIcon, LinkIcon, Mail } from 'lucide-react';
+import {  BadgeCheckIcon, DownloadCloudIcon, FileIcon, Mail } from 'lucide-react';
 
 import { SocialIcon } from 'react-social-icons';
 import { client } from '@/lib/prisma';
@@ -178,9 +178,9 @@ const UserPublicPage = async ({
                                         All projects -{'>'}
                                     </Link>
                                 </div>
-                                <div className='grid grid-cols-1 md:grid-cols-3 gap-4'>
+                                <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
                                     {displayedProjects.map((project: any, index: number) => (
-                                        <ProjectCard project={project} key={index} />
+                                        <ProjectCard project={project} key={index} id={user!.id} />
 
                                     ))}
                                 </div>

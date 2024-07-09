@@ -50,7 +50,7 @@ const ResourcesPage = () => {
             <div className="flex flex-col">
                 <main className="flex-1 lg:p-6 px-4 py-4">
                     <div className="grid gap-6">
-                        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3">
+                        <div className="grid grid-cols-1 gap-6 xl:grid-cols-3">
                             <ResourceCard resources={onlineResources} title='Online Resouces' cardDesc='Useful links and resources for interns' />
                             <OnlineBookCard resources={recommendedBooks} title='Recommended Books' cardDesc='Books to help you grow and develop your career' />
                             <UsefulToolCard resources={usefulTools} title='Useful Tools' cardDesc='Productivity and collaboration tools for interns' />

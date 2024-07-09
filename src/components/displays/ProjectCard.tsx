@@ -1,5 +1,7 @@
+"use client";
+
 import Link from 'next/link'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Button } from '../ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
 import { CalendarIcon, LinkIcon } from 'lucide-react'
@@ -10,22 +12,41 @@ import { auth } from '@clerk/nextjs'
 import FallBackImage from '../../../public/images/fallback.png';
 import { redirect } from 'next/navigation'
 import { client } from '@/lib/prisma'
+import { Spinner } from '../spinner';
+import axios from 'axios';
 
-const ProjectCard = async ({
-    project
-}: { project: any }) => {
+const ProjectCard = ({
+    project,
+    id,
+}: { project: any, id: string }) => {
 
-    const { userId } = auth();
+    const [user, setUser] = useState<any>(null);
+    const [loading, setLoading] = useState<boolean>(false);
 
-    if (!userId) {
-        return redirect("/")
-    }
+    useEffect(() => {
+        setLoading(true);
+        fetchUser(id);
+        setLoading(false);
+    }, [id]);
 
-    const user = await client.user.findUnique({
-        where: {
-            userId: userId,
+    const fetchUser = async (id: string) => {
+        if (id) {
+            try {
+                const userData = await axios.get("/api/getUser", {
+                    params: {
+                        id: id,
+                    }
+                });
+                setUser(userData.data);
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
         }
-    })
+    };
+
+    while (loading) {
+        return <Spinner />;
+    }
 
     return (
         <Link href={`/users/${user?.id}/projects/${project.id}`}>
@@ -34,9 +55,14 @@ const ProjectCard = async ({
                     <Image
                         src={project.imageUrl}
                         alt='Project Image'
+                        placeholder="empty"
                         width={400}
                         height={40}
-                        className='rounded-xl p-2 w-[292px] lg:w-[386px] h-[180px] lg:h-[200px]'
+                        style={{
+                            maxWidth: '100%',
+                            height: 'auto',
+                        }}
+                        className='rounded-xl p-2'
                     />
                 ) : (
                         <Image
@@ -44,7 +70,11 @@ const ProjectCard = async ({
                             alt='Project Image'
                             width={400}
                             height={40}
-                            className='rounded-xl p-2 w-[292px] lg:w-[386px] h-[180px] lg:h-[200px]'
+                            style={{
+                                maxWidth: '100%',
+                                height: 'auto',
+                            }}
+                            className='rounded-xl p-2'
                         />
                 )}
                 <CardHeader>

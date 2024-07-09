@@ -120,13 +120,18 @@ const ProjectEditPage = ({
             } else {
                 return (
                     <Link href={projectData.imageUrl}>
-                        <div className="flex items-center justify-center p-3 w-full bg-purple-100 border-purple-200 border text-purple-700 rounded-md">
+                        <div className="">
                             <Image
                                 src={projectData.imageUrl}
                                 alt="Hero"
-                                className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
+                                // className="mx-auto aspect-video overflow-hidden rounded-xl object-cover object-center sm:w-full lg:order-last"
                                 width={"550"}
                                 height={"310"}
+                                style={{
+                                    maxWidth: '100%',
+                                    height: 'auto',
+                                }}
+                                className='rounded-xl'
                             />
                         </div>
                     </Link>
