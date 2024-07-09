@@ -72,29 +72,28 @@ const PublicProjectPage = async ({
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-            <div className='flex-col lg:flex-wrap'>
+            <div className=''>
                 <div className='flex items-center'>
                     <div className="flex h-12 w-12 items-center justify-center rounded-lg bg-gray-100 dark:bg-gray-800">
                         <InfoIcon className="h-6 w-6 text-gray-500 dark:text-gray-400" />
                     </div>
                     <h1 className='font-bold text-2xl lg:text-4xl'>{project.name}</h1>
                 </div>
-                <div className={cn('w-full grid grid-cols-1 xl:grid-cols-2', !project.imageUrl && "w-full")}>
+                <div className={cn('w-full grid grid-cols-1 xl:grid-cols-2', !project.imageUrl && "w-full flex")}>
                     {project.imageUrl && (
-                        <>
-                            <h2 className='text-2xl font-semibold'>Image</h2>
+                        <div>
                             <Image
                                 src={project.imageUrl}
                                 alt="Hero"
                                 style={{
-                                    width: 'auto%',
+                                    width: '100%',
                                     height: 'auto',
                                 }}
                                 className='rounded-xl p-2'
                                 width={550}
                                 height={325}
                             />
-                        </> 
+                        </div> 
                     )}
                     <div className='mt-4 lg:px-10 xl:px-2'>
                         <h2 className='text-2xl font-semibold'>Description</h2>

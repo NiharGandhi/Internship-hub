@@ -121,10 +121,6 @@ const SelectedInternshipPage = async ({
                                     <p className='text-muted-foreground'>Internship Description:</p>
                                     <p className='font-semibold whitespace-pre-wrap'>{internship?.InternshipDescription}</p>
                                 </div>
-                                <div className='py-1'>
-                                    <p className='text-muted-foreground'>Internship Requirements:</p>
-                                    <p className='font-semibold whitespace-pre-wrap'>{internship?.InternshipRequirement}</p>
-                                </div>
                                 {internship?.Paid && (
                                     <div className='flex py-1'>
                                         <p className='text-muted-foreground'>Pay:</p>
