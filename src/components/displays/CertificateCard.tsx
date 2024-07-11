@@ -11,24 +11,14 @@ import FallBackImage from '../../../public/images/fallback.png';
 import { redirect } from 'next/navigation'
 import { client } from '@/lib/prisma'
 
-const CertificateCard = async ({
-    certificate
-}: { certificate: any }) => {
+const CertificateCard = ({
+    certificate,
+    id
+}: { certificate: any, id: any }) => {
 
-    const { userId } = auth();
-
-    if (!userId) {
-        return redirect("/")
-    }
-
-    const user = await client.user.findUnique({
-        where: {
-            userId: userId,
-        }
-    })
 
     return (
-        <Link href={`/users/${user?.id}/certificates/${certificate.id}`}>
+        <Link href={`/users/${id}/certificates/${certificate.id}`}>
             <Card className='hover:scale-105 transition-all hover:shadow hover:shadow-orange'>
                 <CardHeader>
                     <CardTitle className='line-clamp-1'>{certificate.name}</CardTitle>

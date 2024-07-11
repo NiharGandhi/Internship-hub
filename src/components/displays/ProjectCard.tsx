@@ -18,7 +18,9 @@ import axios from 'axios';
 const ProjectCard = ({
     project,
     id,
-}: { project: any, id: string }) => {
+}: { project: any, id: any
+    
+ }) => {
 
     const [user, setUser] = useState<any>(null);
     const [loading, setLoading] = useState<boolean>(false);

@@ -1,10 +1,8 @@
 "use client";
 
 // SearchUsersPage.tsx
-import { auth } from '@clerk/nextjs/server';
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import Link from 'next/link';
 import { redirect, useRouter } from 'next/navigation';
 import {
     Card,
@@ -22,6 +20,7 @@ import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@
 import { useToast } from '@/components/ui/use-toast';
 import { BadgeCheckIcon, ChevronsUpDown } from 'lucide-react';
 import { SocialIcon } from 'react-social-icons';
+import Link from 'next/link';
 
 const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -344,41 +343,9 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Popover>
-                                <PopoverTrigger asChild>
-                                    <Button>Contact Me</Button>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-80 px-4">
-                                    <div className="grid gap-4">
-                                        <div className="space-y-2">
-                                            <h4 className="font-medium leading-none">Socials</h4>
-                                            <div className='flex space-x-4 py-2'>
-                                                {user?.linkedInLink && (
-                                                    <SocialIcon url={user?.linkedInLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
-                                                )}
-                                                {user?.instagramLink && (
-                                                    <SocialIcon url={user?.instagramLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
-                                                )}
-                                                {user?.xLink && (
-                                                    <SocialIcon url={user?.xLink} rel="noopener noreferrer" target="_blank" style={{ height: 40, width: 40 }} />
-                                                )}
-                                                {user.email && (
-                                                    <SocialIcon
-                                                        network="email"
-                                                        style={{ height: 40, width: 40 }}
-                                                        onClick={() => copyToClipboard(user.email)}
-                                                    />
-                                                )}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </PopoverContent>
-                            </Popover>
-                            <Button className="ml-auto" onClick={() => {
-                                router.replace(`/users/${user.id}`)
-                            }}>
-                                Explore
-                            </Button>
+                            <Link href={`/users/${user.id}`} className='ml-auto'>
+                                <Button>Explore</Button>
+                            </Link>
                         </CardFooter>
                     </Card>
                 ))}

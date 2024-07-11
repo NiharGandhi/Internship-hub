@@ -1,7 +1,4 @@
-import { auth } from '@clerk/nextjs/server';
-
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+"use client";
 
 import React from 'react'
 
@@ -20,39 +17,33 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { client } from '@/lib/prisma';
 import ProjectCard from '@/components/displays/ProjectCard';
+import useUserDetail from '@/hooks/users/useUserDetails';
+import { Spinner } from '@/components/spinner';
+import ErrorCard from '@/components/displays/ErrorCard';
+import { redirect } from 'next/navigation';
 
 
-const ProjectsPage = async ({
+const ProjectsPage = ({
     params
 }: {
     params: { userId: string }
 }) => {
 
-    const { userId } = auth();
+    const {user, userProjects: projects, loading, error} = useUserDetail({ userId: params.userId })
 
-    if (!userId) {
-        return redirect("/")
+    if (loading) {
+        return <Spinner/>
     }
 
-    const user = await client.user.findUnique({
-        where: {
-            id: params.userId,
-        }
-    })
-
-    const projects = await client.project.findMany({
-        where: {
-            userId: user?.userId,
-        }
-    })
+    if (error) {
+        return <ErrorCard message={error} />
+    }
 
     if (!user) {
-        return;
+        redirect("/")
     }
 
-    
     return (
         <div>
             <Breadcrumb className='mt-2'>

@@ -14,11 +14,9 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
-import { ScrollArea } from '@/components/ui/scroll-area';
 
 import { InfoIcon } from 'lucide-react';
 
-import FallBack from "../../../../../../../public/images/fallback.png";
 import { client } from '@/lib/prisma';
 import { cn } from '@/lib/utils';
 
@@ -48,12 +46,8 @@ const PublicProjectPage = async ({
     })
 
     if (!project) {
-        return redirect("/dashboard");
+        return redirect("/home");
     }
-
-    const fallbackImageUrl = FallBack; 
-
-    console.log(project.imageUrl);
 
     return (
         <>

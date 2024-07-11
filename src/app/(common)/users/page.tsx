@@ -22,12 +22,12 @@ const UsersPage = () => {
   const { user, isLoaded } = useUser();
   const { users, loading, error } = useUsers();
 
-  if (!user) {
-    redirect("/")
+  if (loading || !isLoaded) {
+    return <Spinner />
   }
 
-  if (loading) {
-    return <Spinner />
+  if (!user) {
+    redirect("/")
   }
 
   if (error) {
