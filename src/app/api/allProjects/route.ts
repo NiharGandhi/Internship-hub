@@ -16,6 +16,10 @@ export async function GET(req: Request,) {
             }
         });
 
+        if (!projects) {
+            return NextResponse.json([]);
+        }
+
         return NextResponse.json({ projects });
     } catch (error) {
         console.log("ERROR API", error);
