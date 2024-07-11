@@ -7,8 +7,9 @@ import { Spinner } from '@/components/spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import useEvents from '@/hooks/events/useEvents';
+import useAllInternships from '@/hooks/internships/useAllInternships';
 import useOnlineResources from '@/hooks/resources/useOnlineResource';
-import { Company, CreateInternship, User } from '@/types/interfaces';
+import { Company, User } from '@/types/interfaces';
 import { useUser } from '@clerk/nextjs';
 import axios from 'axios';
 import Link from 'next/link';
@@ -72,34 +73,12 @@ const useUserData = (user: any) => {
     return { userName, userType, userData, orgData, loading };
 };
 
-const useInternshipsData = () => {
-    const [internshipsData, setInternshipsData] = useState<CreateInternship[]>([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchInternshipData = async () => {
-            try {
-                const response = await axios.get("/api/allInternships");
-                setInternshipsData(response.data);
-            } catch (error) {
-                console.error("Error fetching internships data:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchInternshipData();
-    }, []);
-
-    return { internshipsData, loading };
-};
-
 const Home = () => {
     const { user, isLoaded } = useUser();
     const { events } = useEvents();
     const { onlineResources } = useOnlineResources();
     const { userName, userType, userData, orgData, loading: userLoading } = useUserData(user);
-    const { internshipsData, loading: internshipsLoading } = useInternshipsData();
+    const { internships, loading: internshipsLoading, error: internshipError } = useAllInternships();
 
     if (userLoading || internshipsLoading) return <Spinner />
 
@@ -137,7 +116,7 @@ const Home = () => {
             <Card className='border-orange mt-4'>
                 <CardHeader className='font-semibold text-2xl'>Internships</CardHeader>
                 <CardContent>
-                    <DisplayInternshipsPage internships={internshipsData} />
+                    <DisplayInternshipsPage internships={internships} />
                 </CardContent>
             </Card>
             <Card className='border-orange mt-4'>
