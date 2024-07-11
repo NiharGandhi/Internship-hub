@@ -13,7 +13,6 @@ const useUserDetail = ({ userId }: { userId : string }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            console.log('Fetching user');
             try {
                 const response = await axios.get('/api/getUserDetail', {
                     params: {
@@ -23,7 +22,6 @@ const useUserDetail = ({ userId }: { userId : string }) => {
                 setUser(response.data.user);
                 setUserProjects(response.data.projects);
                 setUserCertificates(response.data.certificates);
-                console.log(response.data);
             } catch (err) {
                 setError('Error fetching User Details');
             } finally {

@@ -1,5 +1,4 @@
 import { client } from "@/lib/prisma";
-import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
@@ -45,7 +44,7 @@ export async function GET(req: Request) {
         return NextResponse.json({ user, projects, certificates });
 
     } catch (error) {
-        console.log("[ALL ORGANIZATION API]" + error);
+        console.log("[ALL GET USER DETAILS API]" + error);
         return new NextResponse("Internal Server Error", { status: 500 });
     }
 }

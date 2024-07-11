@@ -8,7 +8,6 @@ export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     const { userId } = auth();
     const targetUserId = searchParams.get("targetUserId");
-    console.log(targetUserId)
 
     if (!userId) {
         return new NextResponse("UNAUTHORIZED", { status: 401 })

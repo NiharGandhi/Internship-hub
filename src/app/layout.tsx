@@ -13,6 +13,7 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://internvista.tech'),
   title: "InternVista",
   description: "InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for internship opportunities.",
   keywords: "internships, internship opportunities, student internships, InternVista"

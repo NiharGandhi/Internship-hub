@@ -2,16 +2,10 @@
 
 import Link from 'next/link'
 import React, { useEffect, useState } from 'react'
-import { Button } from '../ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
-import { CalendarIcon, LinkIcon } from 'lucide-react'
-import Image from 'next/image'
-import { cn } from '@/lib/utils'
-import { auth } from '@clerk/nextjs'
+import { Card, CardDescription, CardHeader, CardTitle } from '../ui/card'
+import Image from 'next/image';
 
 import FallBackImage from '../../../public/images/fallback.png';
-import { redirect } from 'next/navigation'
-import { client } from '@/lib/prisma'
 import { Spinner } from '../spinner';
 import axios from 'axios';
 
