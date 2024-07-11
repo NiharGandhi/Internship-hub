@@ -1,6 +1,5 @@
-import { client } from '@/lib/prisma';
-import { auth } from '@clerk/nextjs/server'
-import { redirect } from 'next/navigation';
+'use client';
+
 import React from 'react'
 
 import {
@@ -11,7 +10,6 @@ import {
     CardHeader,
     CardTitle,
 } from "@/components/ui/card";
-import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import {
@@ -22,44 +20,37 @@ import {
     BreadcrumbPage,
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
+import { Separator } from '@/components/ui/separator';
 
 import ApplyButton from '@/components/buttons/ApplyButton';
+import { Spinner } from '@/components/spinner';
+import ErrorCard from '@/components/displays/ErrorCard';
 
 import Image from 'next/image';
 import Link from 'next/link';
 
 import FallBack from "../../../../../public/images/fallback.png";
-import { Separator } from '@/components/ui/separator';
 
-const SelectedInternshipPage = async ({
+import useInternshipPage from '@/hooks/getInternship/useInternshipPage';
+import useUser from '@/hooks/users/useUser';
+
+const SelectedInternshipPage = ({
     params
 }: {
     params: { internshipId: string }
 }) => {
     
-    const { userId } = auth();
+    const {internship, organization: company, loading, error} = useInternshipPage({ internshipId: params.internshipId })
+    const { user, loading: userloading, error: userError } = useUser();
+    
 
-    if (!userId) {
-        return redirect("/")
+    if (loading || userloading) {
+        return <Spinner />
     }
 
-    const user = await client.user.findUnique({
-        where: {
-            userId: userId
-        }
-    })
-
-    const internship = await client.createInternship.findUnique({
-        where: {
-            id: params.internshipId,
-        }
-    })
-
-    const company = await client.company.findUnique({
-        where: {
-            userId: internship?.userId
-        }
-    })
+    if (error || userError) {
+        return <ErrorCard message={error || userError} />
+    }
 
     return (
         <div>
