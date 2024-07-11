@@ -13,16 +13,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  openGraph: {
-    images: [
-      {
-        url: 'https://www.internvista.tech/api/og',
-        width: 1200,
-        height: 630,
-        alt: 'InternVista Home Page, for Students to get Internships.'
-      }
-    ]
-  },
   title: "InternVista",
   description: "Your one app for all your Internship Needs",
 }
