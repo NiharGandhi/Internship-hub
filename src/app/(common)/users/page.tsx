@@ -1,9 +1,6 @@
-// UsersPage.tsx
-import { auth } from '@clerk/nextjs/server';
+"use client";
 
 import React from 'react';
-
-import { redirect } from 'next/navigation';
 
 import { 
   Breadcrumb, 
@@ -14,19 +11,27 @@ import {
   BreadcrumbSeparator 
 } from '@/components/ui/breadcrumb';
 
-import { client } from '@/lib/prisma';
-
 import SearchUsersPage from './_components/SearchUsersPage';
+import useUsers from '@/hooks/users/useUsers';
+import { Spinner } from '@/components/spinner';
+import { useUser } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
 
-const UsersPage = async () => {
-  const { userId } = auth();
+const UsersPage = () => {
+  const { user, isLoaded } = useUser();
+  const { users, loading, error } = useUsers();
 
-  if (!userId) {
-    redirect("/") 
-    return;
+  if (!user) {
+    redirect("/")
   }
 
-  const users = await client.user.findMany();
+  if (loading && !isLoaded) {
+    return <Spinner />
+  }
+
+  if (error) {
+    <h1>Error Fetching Data</h1>
+  }
 
   return (
     <div>
@@ -42,7 +47,7 @@ const UsersPage = async () => {
         </BreadcrumbList>
       </Breadcrumb>
       <h1 className="font-bold text-4xl px-4">Users</h1>
-      <SearchUsersPage userId={userId} users={users} />
+      <SearchUsersPage userId={user?.id} users={users} />
     </div>
   );
 }
