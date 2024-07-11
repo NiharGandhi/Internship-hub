@@ -4,12 +4,6 @@ import { NextResponse } from "next/server";
 
 export async function GET(req: Request,) {
     try {
-        const { userId } = auth();
-
-        if (!userId) {
-            return new NextResponse("UNAUTHORIZED", { status: 500 })
-        }
-
         const projects = await client.project.findMany({
             include: {
                 user: true,
