@@ -11,8 +11,6 @@ const useUserDetail = ({ userId }: { userId : string }) => {
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
-    console.log("UID: ", userId)
-
     useEffect(() => {
         const fetchUser = async () => {
             console.log('Fetching user');

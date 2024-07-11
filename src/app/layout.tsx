@@ -14,7 +14,8 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "InternVista",
-  description: "Your one app for all your Internship Needs",
+  description: "InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for internship opportunities.",
+  keywords: "internships, internship opportunities, student internships, InternVista"
 }
 
 export default function RootLayout({
@@ -37,9 +38,6 @@ export default function RootLayout({
             defer
             src={`https://maps.googleapis.com/maps/api/js?key=${process.env.GOOGLE_PLACES_API}&libraries=places`}
           ></script>
-          <title>InternVista</title>
-          <meta name="description" content="InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for internship opportunities." />
-          <meta name="keywords" content="internships, internship opportunities, student internships, InternVista" />
           <meta property="og:title" content="InternVista - Find Your Dream Internship" />
           <meta property="og:description" content="InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for internship opportunities." />
           {/* <meta property="og:image" content="" /> */}

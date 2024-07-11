@@ -3,11 +3,8 @@ import { auth } from "@clerk/nextjs";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {
-    console.log("fetching...");
     const { searchParams } = new URL(req.url);
     const userId = searchParams.get('userId');
-
-    console.log("UID: ", userId);
 
     if (!userId) {
         return new NextResponse("Error", { status: 404 });
@@ -19,8 +16,6 @@ export async function GET(req: Request) {
                 id: userId,
             }
         })
-
-        console.log("user: ", user);
 
         if (!user) {
             return new NextResponse("Error", { status: 404 });
