@@ -1,7 +1,4 @@
-import { auth } from '@clerk/nextjs/server';
-
-import { redirect } from 'next/navigation';
-import Link from 'next/link';
+"use client"
 
 import React from 'react'
 
@@ -20,28 +17,25 @@ import {
     BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 
-import { client } from '@/lib/prisma';
 import AllProjectsCard from '@/components/displays/AllProjectsCard';
+import useAllProjects from '@/hooks/projects/useProjects';
+import { Spinner } from '@/components/spinner';
+import ErrorCard from '@/components/displays/ErrorCard';
 
 
-const AllProjects = async ({
-    params
-}: {
-    params: { userId: string }
-}) => {
+const AllProjects = () => {
 
-    const { userId } = auth();
+    const { projects, loading, error} = useAllProjects();
 
-    if (!userId) {
-        return redirect("/")
+    if (loading) {
+        return <Spinner />
     }
 
-    const projects = await client.project.findMany({
-        include: {
-            user: true,
-        }
-    })
-
+    if (error) {
+        return (
+            <ErrorCard message={error}/>
+        )
+    }
 
     return (
         <div>

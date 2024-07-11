@@ -1,35 +1,17 @@
 import Link from 'next/link'
 import React from 'react'
-import { Button } from '../ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card'
-import { CalendarIcon, LinkIcon } from 'lucide-react'
 import Image from 'next/image'
-import { cn } from '@/lib/utils'
-import { auth } from '@clerk/nextjs'
 
 import FallBackImage from '../../../public/images/fallback.png';
-import { redirect } from 'next/navigation'
-import { client } from '@/lib/prisma'
 
-const AllProjectsCard = async ({
+const AllProjectsCard = ({
     project
 }: { project: any }) => {
 
-    const { userId } = auth();
-
-    if (!userId) {
-        return redirect("/")
-    }
-
-    const user = await client.user.findUnique({
-        where: {
-            userId: userId,
-        }
-    })
-
     return (
         <Link href={`/users/${project.user?.id}/projects/${project.id}`}>
-            <Card className='hover:scale-105 transition-all hover:shadow hover:shadow-orange'>
+            <Card>
                 {project.imageUrl ? (
                     <Image
                         src={project.imageUrl}

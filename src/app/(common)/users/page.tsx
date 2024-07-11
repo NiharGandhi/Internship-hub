@@ -16,6 +16,7 @@ import useUsers from '@/hooks/users/useUsers';
 import { Spinner } from '@/components/spinner';
 import { useUser } from '@clerk/nextjs';
 import { redirect } from 'next/navigation';
+import ErrorCard from '@/components/displays/ErrorCard';
 
 const UsersPage = () => {
   const { user, isLoaded } = useUser();
@@ -25,12 +26,12 @@ const UsersPage = () => {
     redirect("/")
   }
 
-  if (loading && !isLoaded) {
+  if (loading) {
     return <Spinner />
   }
 
   if (error) {
-    <h1>Error Fetching Data</h1>
+    <ErrorCard message={error} />
   }
 
   return (

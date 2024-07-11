@@ -1,5 +1,6 @@
 'use client';
 
+import ErrorCard from '@/components/displays/ErrorCard';
 import EventCard from '@/components/displays/EventCard';
 import ResourceCard from '@/components/displays/ResourceCard';
 import DisplayInternshipsPage from '@/components/displays/home-internships-display';
@@ -22,13 +23,14 @@ const useUserData = (user: any) => {
     const [loading, setLoading] = useState(true);
     const [userType, setUserType] = useState<string | undefined>("INTERNSHIP_FINDER");
     const [userName, setUserName] = useState<string | null>("");
-
+    const [error, setError] = useState<string | null>(null);
     const fetchUserData = useCallback(async () => {
         try {
             const response = await axios.get("/api/user");
             setUserData(response.data);
         } catch (error) {
             console.error("Error fetching user data:", error);
+            setError("Error Fetching user data");
         } finally {
             setLoading(false);
         }
@@ -40,6 +42,7 @@ const useUserData = (user: any) => {
             setOrgData(response.data);
         } catch (error) {
             console.error("Error fetching organization data:", error);
+            setError("Error Fetching Organization data.")
         } finally {
             setLoading(false);
         }
@@ -70,17 +73,23 @@ const useUserData = (user: any) => {
         }
     }, [userData, orgData]);
 
-    return { userName, userType, userData, orgData, loading };
+    return { userName, userType, userData, orgData, loading, error };
 };
 
 const Home = () => {
     const { user, isLoaded } = useUser();
-    const { events } = useEvents();
-    const { onlineResources } = useOnlineResources();
-    const { userName, userType, userData, orgData, loading: userLoading } = useUserData(user);
+    const { events, error, loading } = useEvents();
+    const { onlineResources, errorRes, loadingRes } = useOnlineResources();
+    const { userName, userType, userData, orgData, loading: userLoading, error: userError } = useUserData(user);
     const { internships, loading: internshipsLoading, error: internshipError } = useAllInternships();
 
-    if (userLoading || internshipsLoading) return <Spinner />
+    if (userLoading || internshipsLoading || loading || loadingRes || !isLoaded) return <Spinner />
+
+    if (error || errorRes || userError || internshipError) {
+        return (
+            <ErrorCard message={error || errorRes || userError || internshipError} />
+        )
+    }
 
     if (userType === "INTERNSHIP_FINDER" && userData === null && !userLoading) {
         return (

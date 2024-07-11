@@ -1,28 +1,30 @@
-import { client } from '@/lib/prisma';
-
-import { auth } from '@clerk/nextjs/server';
-
-import { redirect } from 'next/navigation';
+'use client';
 
 import React from 'react';
 
 import SearchOrganizationsPage from './_components/SearchOrganizations';
+import { Spinner } from '@/components/spinner';
+import ErrorCard from '@/components/displays/ErrorCard';
+import useAllOrganizations from '@/hooks/companies/useAllCompanies';
 
 
 
-const AllOrganizationPage = async () => {
+const AllOrganizationPage = () => {
 
-    const { userId } = auth();
+    const { organizations, loading, error } = useAllOrganizations();
 
-    if (!userId) {
-        return redirect("/")
+    if (loading) {
+        return <Spinner />
     }
 
-    const companies = await client.company.findMany();
-
+    if (error) {
+        return (
+            <ErrorCard message={error} />
+        )
+    }
     return (
         <div>
-            <SearchOrganizationsPage companies={companies} />
+            <SearchOrganizationsPage companies={organizations} />
         </div>
     );
 }
