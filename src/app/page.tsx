@@ -1,18 +1,16 @@
 'use client';
 
-import Head from 'next/head';
 import DisplayInternshipsPage from '@/components/displays/home-internships-display';
 import { Spinner } from '@/components/spinner';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import useEvents from '@/hooks/events/useEvents';
-import useOnlineResources from '@/hooks/resources/useOnlineResource';
 import axios from 'axios';
 import Image from 'next/image';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
-import HeroImage from "../../../public/images/placeholder.png";
+import HeroImage from "../../public/images/placeholder.png";
+
 
 const Home = () => {
     const [loading, setLoading] = useState(true);

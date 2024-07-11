@@ -13,9 +13,19 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  openGraph: {
+    images: [
+      {
+        url: 'https://www.internvista.tech/api/og',
+        width: 1200,
+        height: 630,
+        alt: 'InternVista Home Page, for Students to get Internships.'
+      }
+    ]
+  },
   title: "InternVista",
   description: "Your one app for all your Internship Needs",
-};
+}
 
 export default function RootLayout({
   children,
@@ -42,8 +52,8 @@ export default function RootLayout({
           <meta name="keywords" content="internships, internship opportunities, student internships, InternVista" />
           <meta property="og:title" content="InternVista - Find Your Dream Internship" />
           <meta property="og:description" content="InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for internship opportunities." />
-          <meta property="og:image" content="/images/placeholder.png" />
-          <meta property="og:url" content="https://example.com/" />
+          {/* <meta property="og:image" content="" /> */}
+          <meta property="og:url" content="https://internvista.tech/" />
           <meta name="twitter:card" content="summary_large_image" />
         </head>
         <body className={`bg-white ${inter.className}`}>
