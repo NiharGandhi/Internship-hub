@@ -53,7 +53,7 @@ export default function RootLayout({
           <meta property="og:title" content="InternVista - Find Your Dream Internship" />
           <meta property="og:description" content="InternVista is the ultimate platform for students to showcase their profiles and connect with top employers for internship opportunities." />
           {/* <meta property="og:image" content="" /> */}
-          <meta property="og:url" content="https://internvista.tech/" />
+          <meta property="og:url" content="https://internvista.tech/api/og" />
           <meta name="twitter:card" content="summary_large_image" />
         </head>
         <body className={`bg-white ${inter.className}`}>
