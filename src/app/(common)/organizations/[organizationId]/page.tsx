@@ -1,7 +1,5 @@
-import { client } from '@/lib/prisma';
-import { auth } from '@clerk/nextjs/server';
+"use client";
 
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -25,38 +23,33 @@ import CompanyLogo from "../../../../../public/images/CompanyLogoFallback.svg";
 import CompanyBanner from "../../../../../public/images/CompanyBannerFallback.png";
 
 import { cn } from '@/lib/utils';
+import useOrganization from '@/hooks/organizations/useOrganization';
+import { Spinner } from '@/components/spinner';
+import ErrorCard from '@/components/displays/ErrorCard';
 
 
 
-const OrganizationPage = async ({ params } : { params : {
+const OrganizationPage = ({ params } : { params : {
     organizationId : string
 } }) => {
 
-    const { userId } = auth();
+    const {organization, internships, loading, error} = useOrganization({ orgId: params.organizationId });
 
-    if (!userId) {
-        return redirect("/")
+
+    if (loading) {
+        return <Spinner />
     }
 
-    const id = params.organizationId;
+    if (error) {
+        return <ErrorCard message={error} />
+    }
 
-    const company = await client.company.findUnique({
-        where: {
-            id: id,
-        },
-    });
-
-    const internships = await client.createInternship.findMany({
-        where: {
-            userId: company?.userId
-        }
-    });
 
     return (
         <div>
             <div style={{ position: 'relative' }}>
                 <Image
-                    src={company?.CompanyImageUrl || CompanyBanner}
+                    src={organization?.CompanyImageUrl || CompanyBanner}
                     alt='Banner'
                     width={1244}
                     height={200}
@@ -69,7 +62,7 @@ const OrganizationPage = async ({ params } : { params : {
                 </div>
                 <div style={{ position: 'absolute', top: 150, left: 20 }}>
                     <Image
-                        src={company?.CompanyLogoUrl || CompanyLogo}
+                        src={organization?.CompanyLogoUrl || CompanyLogo}
                         alt='Logo'
                         width={100}
                         height={100}
@@ -78,24 +71,24 @@ const OrganizationPage = async ({ params } : { params : {
                 </div>
             </div>
             <div className='px-2 xl:px-10 space-y-2 xl:mt-4 xl:ml-24 mt-16'>
-                <h1 className='font-bold text-4xl'>{company?.name}</h1>
-                <Badge>{company?.Location}</Badge>
+                <h1 className='font-bold text-4xl'>{organization?.name}</h1>
+                <Badge>{organization?.Location}</Badge>
                 <Separator />
                 <div>
                     <h2 className='text-2xl font-semibold mt-6'>About Us</h2>
                     <p className='text-muted-foreground rounded-lg whitespace-pre-wrap'>
-                        {company?.CompanyDescription}
+                        {organization?.CompanyDescription}
                     </p>
                 </div>
             </div>
             <div className='px-2 xl:px-10 space-y-2 lg:mt-6 xl:ml-24 mt-16'>
-                <h1 className='font-bold text-3xl mt-6'>Internships at <span className='text-orange'>{company?.name}</span></h1>
+                <h1 className='font-bold text-3xl mt-6'>Internships at <span className='text-orange'>{organization?.name}</span></h1>
                 <div>
                     {internships.map(internship => (
                         <Card key={internship.id} className='mb-4'>
                             <CardHeader>
                                 <CardTitle className='font-bold'>{internship.name}</CardTitle>
-                                <CardDescription>{company?.name}</CardDescription>
+                                <CardDescription>{organization?.name}</CardDescription>
                             </CardHeader>
                             <CardContent>
                                 <div>

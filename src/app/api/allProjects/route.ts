@@ -16,7 +16,7 @@ export async function GET(req: Request,) {
             }
         });
 
-        return NextResponse.json(projects);
+        return NextResponse.json({ projects });
     } catch (error) {
         console.log("ERROR API", error);
     }

@@ -1,19 +1,20 @@
+// hooks/useEvents.ts
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
 
-const useAllProjects = () => {
-    const [projects, setProjects] = useState([]);
+const useInternships = () => {
+    const [internships, setInternships] = useState([]);
     const [loading, setLoading] = useState<boolean>(true);
     const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const response = await axios.get('/api/allProjects');
-                setProjects(response.data.projects);
+                const response = await axios.get('/api/internshipsPage');
+                setInternships(response.data);
             } catch (err) {
-                setError('Error fetching Projects' + err);
+                setError('Error fetching Internships');
             } finally {
                 setLoading(false);
             }
@@ -21,7 +22,7 @@ const useAllProjects = () => {
         fetchEvents();
     }, []);
 
-    return { projects, loading, error };
+    return { internships, loading, error };
 };
 
-export default useAllProjects;
+export default useInternships;

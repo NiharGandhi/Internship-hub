@@ -1,24 +1,25 @@
-import { client } from '@/lib/prisma';
-import { auth } from '@clerk/nextjs/server';
-import { redirect } from 'next/navigation';
+'use client';
 import React from 'react';
 import SearchInternshipsPage from './_components/SearchInternships';
+import useInternships from '@/hooks/internships/useInternships';
+import { Spinner } from '@/components/spinner';
+import ErrorCard from '@/components/displays/ErrorCard';
 
 
 
-const InternshipsPage = async () => {
+const InternshipsPage = () => {
 
-    const { userId } = auth();
+    const {internships, loading, error} = useInternships();
 
-    if (!userId) {
-        return redirect("/")
+    if (loading) {
+        return <Spinner />
     }
 
-    const internships = await client.createInternship.findMany({
-        include: {
-            user: true,
-        }
-    });
+    if (error) {
+        return (
+            <ErrorCard message={error} />
+        )
+    }
 
     return (
         <div>
