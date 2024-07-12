@@ -114,6 +114,7 @@ const SearchUsersPage = () => {
         setSelectedEducationLevel('');
         setSelectedInstitution('');
         setSelectedSkill('');
+        setSearchQuery('');
     };
 
     if (loading) return <Spinner />;
