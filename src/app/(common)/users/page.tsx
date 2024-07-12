@@ -42,7 +42,7 @@ const UsersPage = () => {
           </BreadcrumbItem>
         </BreadcrumbList>
       </Breadcrumb>
-      <h1 className="font-bold text-4xl px-4">Users</h1>
+      <h1 className="font-bold text-4xl">Users</h1>
       <SearchUsersPage />
     </div>
   );

@@ -122,114 +122,112 @@ const SearchUsersPage = () => {
     return (
         <div>
             {/* Search Bar */}
-            <div className='py-4 flex flex-col lg:flex-row gap-2'>
+            <div className='py-2 px-2 flex flex-col lg:flex-row gap-2'>
                 <Input
                     type="text"
                     placeholder="🔎 Search users..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
-                <div className='flex gap-2'>
-                    {/* Skill Box */}
-                    <Popover open={openSkill} onOpenChange={setOpenSkill}>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant="outline"
-                                role="combobox"
-                                aria-expanded={openSkill}
-                                className="justify-between"
-                            >
-                                {selectedSkill || "All Skills"}
-                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent>
-                            <Command>
-                                <CommandInput
-                                    placeholder="Skill..."
-                                    onInput={(e) => setSelectedSkill(e.currentTarget.value)}
-                                />
-                                <CommandEmpty>No Skills Found</CommandEmpty>
-                                <CommandList>
-                                    {availableSkills.map(skill => (
-                                        <CommandItem
-                                            key={skill}
-                                            onSelect={() => handleSkillChangeCombobox(skill)}
-                                        >
-                                            {skill}
-                                        </CommandItem>
-                                    ))}
-                                </CommandList>
-                            </Command>
-                        </PopoverContent>
-                    </Popover>
-                    {/* Institution Combobox */}
-                    <Popover open={openInstitution} onOpenChange={setOpenInstitution}>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant="outline"
-                                role="combobox"
-                                aria-expanded={openInstitution}
-                                className="justify-between"
-                            >
-                                {selectedInstitution || "All Institutions"}
-                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent>
-                            <Command>
-                                <CommandInput
-                                    placeholder="Institution..."
-                                    onInput={(e) => setSelectedInstitution(e.currentTarget.value)}
-                                />
-                                <CommandEmpty>No Institutions Found</CommandEmpty>
-                                <CommandList>
-                                    {availableInstitions.map((institution, index) => (
-                                        <CommandItem
-                                            key={index}
-                                            onSelect={() => handleInstitutionChangeCombobox(institution)}
-                                        >
-                                            {institution}
-                                        </CommandItem>
-                                    ))}
-                                </CommandList>
-                            </Command>
-                        </PopoverContent>
-                    </Popover>
-                    {/* Education Level Combobox */}
-                    <Popover open={openEducationLevel} onOpenChange={setOpenEducationLevel}>
-                        <PopoverTrigger asChild>
-                            <Button
-                                variant="outline"
-                                role="combobox"
-                                aria-expanded={openEducationLevel}
-                                className="justify-between"
-                            >
-                                {selectedEducationLevel || "All Education Levels"}
-                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                            </Button>
-                        </PopoverTrigger>
-                        <PopoverContent>
-                            <Command>
-                                <CommandInput
-                                    placeholder="Education Level..."
-                                    onInput={(e) => setSelectedEducationLevel(e.currentTarget.value)}
-                                />
-                                <CommandEmpty>No Education Levels Found</CommandEmpty>
-                                <CommandList>
-                                    {availableEducationLevels.map(level => (
-                                        <CommandItem
-                                            key={level}
-                                            onSelect={() => handleEducationLevelChangeCombobox(level)}
-                                        >
-                                            {level}
-                                        </CommandItem>
-                                    ))}
-                                </CommandList>
-                            </Command>
-                        </PopoverContent>
-                    </Popover>
-                </div>
+                {/* Skill Box */}
+                <Popover open={openSkill} onOpenChange={setOpenSkill}>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={openSkill}
+                            className="justify-between"
+                        >
+                            {selectedSkill || "All Skills"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <Command>
+                            <CommandInput
+                                placeholder="Skill..."
+                                onInput={(e) => setSelectedSkill(e.currentTarget.value)}
+                            />
+                            <CommandEmpty>No Skills Found</CommandEmpty>
+                            <CommandList>
+                                {availableSkills.map(skill => (
+                                    <CommandItem
+                                        key={skill}
+                                        onSelect={() => handleSkillChangeCombobox(skill)}
+                                    >
+                                        {skill}
+                                    </CommandItem>
+                                ))}
+                            </CommandList>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
+                {/* Institution Combobox */}
+                <Popover open={openInstitution} onOpenChange={setOpenInstitution}>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={openInstitution}
+                            className="justify-between"
+                        >
+                            {selectedInstitution || "All Institutions"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <Command>
+                            <CommandInput
+                                placeholder="Institution..."
+                                onInput={(e) => setSelectedInstitution(e.currentTarget.value)}
+                            />
+                            <CommandEmpty>No Institutions Found</CommandEmpty>
+                            <CommandList>
+                                {availableInstitions.map((institution, index) => (
+                                    <CommandItem
+                                        key={index}
+                                        onSelect={() => handleInstitutionChangeCombobox(institution)}
+                                    >
+                                        {institution}
+                                    </CommandItem>
+                                ))}
+                            </CommandList>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
+                {/* Education Level Combobox */}
+                <Popover open={openEducationLevel} onOpenChange={setOpenEducationLevel}>
+                    <PopoverTrigger asChild>
+                        <Button
+                            variant="outline"
+                            role="combobox"
+                            aria-expanded={openEducationLevel}
+                            className="justify-between"
+                        >
+                            {selectedEducationLevel || "All Education Levels"}
+                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                        </Button>
+                    </PopoverTrigger>
+                    <PopoverContent>
+                        <Command>
+                            <CommandInput
+                                placeholder="Education Level..."
+                                onInput={(e) => setSelectedEducationLevel(e.currentTarget.value)}
+                            />
+                            <CommandEmpty>No Education Levels Found</CommandEmpty>
+                            <CommandList>
+                                {availableEducationLevels.map(level => (
+                                    <CommandItem
+                                        key={level}
+                                        onSelect={() => handleEducationLevelChangeCombobox(level)}
+                                    >
+                                        {level}
+                                    </CommandItem>
+                                ))}
+                            </CommandList>
+                        </Command>
+                    </PopoverContent>
+                </Popover>
                 {/* CLEAR BUTTON */}
                 <Button variant="ghost" onClick={clearFilters}>Clear Filters</Button>
             </div>
