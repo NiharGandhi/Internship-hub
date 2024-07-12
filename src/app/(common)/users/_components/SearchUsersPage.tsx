@@ -1,9 +1,6 @@
-"use client";
-
 // SearchUsersPage.tsx
 import React, { useEffect, useState } from 'react';
 import { format } from 'date-fns';
-import { redirect, useRouter } from 'next/navigation';
 import {
     Card,
     CardContent,
@@ -17,76 +14,65 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { Command, CommandEmpty, CommandInput, CommandItem, CommandList } from '@/components/ui/command';
-import { useToast } from '@/components/ui/use-toast';
 import { BadgeCheckIcon, ChevronsUpDown } from 'lucide-react';
-import { SocialIcon } from 'react-social-icons';
 import Link from 'next/link';
+import useUsers from '@/hooks/users/useUsers';
+import { Spinner } from '@/components/spinner';
+import ErrorCard from '@/components/displays/ErrorCard';
 
-const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
+const SearchUsersPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
     const [usersPerPage] = useState(10);
     const [searchQuery, setSearchQuery] = useState('');
-    const [selectedSkill, setSelectedSkill] = useState('');
-    const [selectedInstitution, setSelectedInstitution] = useState('');
-    const [selectedEducationLevel, setSelectedEducationLevel] = useState('');
-    const [selectedVerified, setSelectedVerified] = useState(''); // State for verified filter
-    const [skills, setSkills] = useState<string[]>([]);
-    const [institutions, setInstitutions] = useState<string[]>([]);
-    const [educationLevels, setEducationLevels] = useState<string[]>([]);
     const [openSkill, setOpenSkill] = useState(false);
+    const [selectedSkill, setSelectedSkill] = useState('');
     const [openInstitution, setOpenInstitution] = useState(false);
+    const [selectedInstitution, setSelectedInstitution] = useState('');
     const [openEducationLevel, setOpenEducationLevel] = useState(false);
-    const [openVerified, setOpenVerified] = useState(false); // State for verified filter popover
+    const [selectedEducationLevel, setSelectedEducationLevel] = useState('');
 
-    const { toast } = useToast();
-    const router = useRouter();
-
-    useEffect(() => {
-        if (!userId) {
-            redirect("/");
-        }
-    }, [userId]);
+    const { users, loading, error, total, skills, institutions, educationLevels } = useUsers(currentPage, usersPerPage, searchQuery, selectedSkill, selectedInstitution, selectedEducationLevel);
 
     useEffect(() => {
-        const fetchFilters = () => {
-            const allSkills: Set<string> = new Set();
-            const allInstitutions: Set<string> = new Set();
-            const allEducationLevels: Set<string> = new Set();
+        fetchSkills(skills);
+        fetchInstitutions(institutions);
+        fetchEducationLevels(educationLevels)
+    }, [skills, institutions, educationLevels]);
 
-            users.forEach((user: { skills: string; InstitutionName: string; EducationLevel: string; }) => {
-                // Extract skills
-                if (user.skills) {
-                    user.skills.split(',').map(skill => skill.trim()).forEach(skill => allSkills.add(skill));
-                }
-                // Extract institutions
-                if (user.InstitutionName) {
-                    allInstitutions.add(user.InstitutionName);
-                }
-                // Extract education levels
-                if (user.EducationLevel) {
-                    allEducationLevels.add(user.EducationLevel);
-                }
-            });
+    const fetchSkills = (skills: any[]) => {
+        const allSkills: Set<string> = new Set();
+        skills.forEach(skill => {
+            if (skill.skills) {
+                skill.skills.split(',').forEach((s: string) => allSkills.add(s.trim()));
+            }
+        });
+        setAvailableSkills(Array.from(allSkills));
+    };
 
-            setSkills(Array.from(allSkills));
-            setInstitutions(Array.from(allInstitutions));
-            setEducationLevels(Array.from(allEducationLevels));
-        };
+    const fetchInstitutions = (institutions: any[]) => {
+        const allInstitutions: Set<string> = new Set();
+        institutions.forEach(institution => {
+            if (institution.InstitutionName) {
+                allInstitutions.add(institution.InstitutionName.trim());
+            }
+        });
+        setAvailableInstitutions(Array.from(allInstitutions));
+    };
 
-        fetchFilters();
-    }, [users]);
+    const fetchEducationLevels = (educationLevels: any[]) => {
+        const allEducationLevels: Set<string> = new Set();
+        educationLevels.forEach(educationLevel => {
+            if (educationLevel.EducationLevel) {
+                allEducationLevels.add(educationLevel.EducationLevel.trim());
+            }
+        });
+        setAvailableEducationLevels(Array.from(allEducationLevels));
+    };
 
-    const filteredUsers = users.filter((user: { name: string; skills: string; InstitutionName: string; EducationLevel: string; verified: boolean }) =>
-        user.name.toLowerCase().includes(searchQuery.toLowerCase()) &&
-        (selectedSkill === '' || (user.skills && user.skills.toLowerCase().includes(selectedSkill.toLowerCase()))) &&
-        (selectedInstitution === '' || (user.InstitutionName && user.InstitutionName.toLowerCase().includes(selectedInstitution.toLowerCase()))) &&
-        (selectedEducationLevel === '' || user.EducationLevel === selectedEducationLevel) &&
-        (selectedVerified === '' || (selectedVerified === 'verified' && user.verified) || (selectedVerified === 'unverified' && !user.verified))
-    );
+    const [availableSkills, setAvailableSkills] = useState<string[]>([]);
+    const [availableInstitions, setAvailableInstitutions] = useState<string[]>([]);
+    const [availableEducationLevels, setAvailableEducationLevels] = useState<string[]>([]);
 
-    const indexOfLastUser = currentPage * usersPerPage;
-    const indexOfFirstUser = indexOfLastUser - usersPerPage;
-    const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
     const formatDate = (dateString: string | number | Date) => {
         if (!dateString) return 'N/A';
@@ -95,35 +81,25 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
 
     const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setSearchQuery(e.target.value);
-        setCurrentPage(1);
     };
 
     const handleSkillChangeCombobox = (value: string) => {
         setSelectedSkill(value);
-        setCurrentPage(1);
         setOpenSkill(false);
     };
 
     const handleInstitutionChangeCombobox = (value: string) => {
         setSelectedInstitution(value);
-        setCurrentPage(1);
         setOpenInstitution(false);
     };
 
     const handleEducationLevelChangeCombobox = (value: string) => {
         setSelectedEducationLevel(value);
-        setCurrentPage(1);
         setOpenEducationLevel(false);
     };
-
-    const handleVerifiedChangeCombobox = (value: string) => {
-        setSelectedVerified(value);
-        setCurrentPage(1);
-        setOpenVerified(false);
-    };
-
+    
     const handleNextPage = () => {
-        if (currentPage < Math.ceil(filteredUsers.length / usersPerPage)) {
+        if (currentPage < Math.ceil(total / usersPerPage)) {
             setCurrentPage(currentPage + 1);
         }
     };
@@ -138,223 +114,182 @@ const SearchUsersPage = ({ userId, users }: { userId: string, users: any }) => {
         setSelectedEducationLevel('');
         setSelectedInstitution('');
         setSelectedSkill('');
-        setSelectedVerified(''); // Clear verified filter
-        setCurrentPage(1);
     };
 
-    const copyToClipboard = (text: string) => {
-        navigator.clipboard.writeText(text)
-            .then(() => {
-                toast({
-                    title: "Email Copied to Clipboard",
-                });
-            })
-            .catch((err) => {
-                toast({
-                    title: "Error",
-                    description: "Error Copying Email",
-                });
-            });
-    };
+    if (loading) return <Spinner />;
+    if (error) return <ErrorCard message={error} />
 
     return (
         <div>
-            <div className='py-4 space-y-4 space-x-4'>
-                {/* Search Bar */}
+            {/* Search Bar */}
+            <div className='py-4 flex flex-col lg:flex-row gap-2'>
                 <Input
                     type="text"
                     placeholder="🔎 Search users..."
                     value={searchQuery}
                     onChange={handleSearchChange}
                 />
-                {/* Skill Combobox */}
-                <Popover open={openSkill} onOpenChange={setOpenSkill}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={openSkill}
-                            className="justify-between"
-                        >
-                            {selectedSkill || "All Skills"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <Command>
-                            <CommandInput
-                                placeholder="Skill..."
-                                onInput={(e) => setSelectedSkill(e.currentTarget.value)}
-                            />
-                            <CommandEmpty>No Skills Found</CommandEmpty>
-                            <CommandList>
-                                {skills.map(skill => (
-                                    <CommandItem
-                                        key={skill}
-                                        onSelect={() => handleSkillChangeCombobox(skill)}
-                                    >
-                                        {skill}
-                                    </CommandItem>
-                                ))}
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
-                {/* Institution Combobox */}
-                <Popover open={openInstitution} onOpenChange={setOpenInstitution}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={openInstitution}
-                            className="justify-between"
-                        >
-                            {selectedInstitution || "All Institutions"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <Command>
-                            <CommandInput
-                                placeholder="Institution..."
-                                onInput={(e) => setSelectedInstitution(e.currentTarget.value)}
-                            />
-                            <CommandEmpty>No Institutions Found</CommandEmpty>
-                            <CommandList>
-                                {institutions.map(institution => (
-                                    <CommandItem
-                                        key={institution}
-                                        onSelect={() => handleInstitutionChangeCombobox(institution)}
-                                    >
-                                        {institution}
-                                    </CommandItem>
-                                ))}
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
-                {/* Education Level Combobox */}
-                <Popover open={openEducationLevel} onOpenChange={setOpenEducationLevel}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={openEducationLevel}
-                            className="justify-between"
-                        >
-                            {selectedEducationLevel || "All Education Levels"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <Command>
-                            <CommandInput
-                                placeholder="Education Level..."
-                                onInput={(e) => setSelectedEducationLevel(e.currentTarget.value)}
-                            />
-                            <CommandEmpty>No Education Levels Found</CommandEmpty>
-                            <CommandList>
-                                {educationLevels.map(level => (
-                                    <CommandItem
-                                        key={level}
-                                        onSelect={() => handleEducationLevelChangeCombobox(level)}
-                                    >
-                                        {level}
-                                    </CommandItem>
-                                ))}
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
-                {/* Verified Combobox */}
-                <Popover open={openVerified} onOpenChange={setOpenVerified}>
-                    <PopoverTrigger asChild>
-                        <Button
-                            variant="outline"
-                            role="combobox"
-                            aria-expanded={openVerified}
-                            className="justify-between"
-                        >
-                            {selectedVerified || "All Users"}
-                            <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                        </Button>
-                    </PopoverTrigger>
-                    <PopoverContent>
-                        <Command>
-                            <CommandInput
-                                placeholder="Verified Status..."
-                                onInput={(e) => setSelectedVerified(e.currentTarget.value)}
-                            />
-                            <CommandEmpty>No Verified Status Found</CommandEmpty>
-                            <CommandList>
-                                <CommandItem
-                                    onSelect={() => handleVerifiedChangeCombobox('')}
-                                >
-                                    All Users
-                                </CommandItem>
-                                <CommandItem
-                                    onSelect={() => handleVerifiedChangeCombobox('verified')}
-                                >
-                                    Verified Users
-                                </CommandItem>
-                                <CommandItem
-                                    onSelect={() => handleVerifiedChangeCombobox('unverified')}
-                                >
-                                    Unverified Users
-                                </CommandItem>
-                            </CommandList>
-                        </Command>
-                    </PopoverContent>
-                </Popover>
-                <Button variant="ghost" onClick={clearFilters}>Clear Filters</Button>
-                {/* User Cards */}
-                {currentUsers.map((user: { id: string; name: string; InstitutionName: string; skills: string; EducationLevel: string; GraduationDate: string | number | Date; email: string; verified: boolean; linkedInLink: string; instagramLink: string; xLink: string; }) => (
-                    <Card key={user.id} className='mb-4'>
-                        <CardHeader>
-                            <CardTitle className='font-bold flex'>
-                                {user.name}
-                                <span className='ml-2'>{user.verified && <BadgeCheckIcon />}</span>
-                            </CardTitle>
-                            <CardDescription>{user.InstitutionName}</CardDescription>
-                        </CardHeader>
-                        <CardContent>
-                            <div className='sm:flex-col space-x-1'>
-                                {user.skills ? user.skills.split(',').map((skill, index) => (
-                                    <Badge key={index}>{skill.trim()}</Badge>
-                                )) : (
-                                    <p className='text-sm text-muted'>No Skills Added</p>
-                                )}
-                            </div>
-                            <div className='flex flex-col py-2 justify-center'>
-                                <div className='flex'>
-                                    Education Level: {
-                                        <div className='ml-1 font-semibold'>
-                                            {user.EducationLevel}
-                                        </div>
-                                    }
-                                </div>
-                                <div className='flex'>
-                                    Graduation Date: {
-                                        <div className='ml-1 font-semibold'>
-                                            {formatDate(user.GraduationDate)}
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </CardContent>
-                        <CardFooter>
-                            <Link href={`/users/${user.id}`} className='ml-auto'>
-                                <Button>Explore</Button>
-                            </Link>
-                        </CardFooter>
-                    </Card>
-                ))}
-                {/* Pagination Controls */}
-                <div className="flex justify-center space-x-4 mt-4">
-                    <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
-                    <span className='py-2'>Page {currentPage} of {Math.ceil(filteredUsers.length / usersPerPage)}</span>
-                    <Button onClick={handleNextPage} disabled={currentPage === Math.ceil(filteredUsers.length / usersPerPage)}>Next</Button>
+                <div className='flex gap-2'>
+                    {/* Skill Box */}
+                    <Popover open={openSkill} onOpenChange={setOpenSkill}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={openSkill}
+                                className="justify-between"
+                            >
+                                {selectedSkill || "All Skills"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Command>
+                                <CommandInput
+                                    placeholder="Skill..."
+                                    onInput={(e) => setSelectedSkill(e.currentTarget.value)}
+                                />
+                                <CommandEmpty>No Skills Found</CommandEmpty>
+                                <CommandList>
+                                    {availableSkills.map(skill => (
+                                        <CommandItem
+                                            key={skill}
+                                            onSelect={() => handleSkillChangeCombobox(skill)}
+                                        >
+                                            {skill}
+                                        </CommandItem>
+                                    ))}
+                                </CommandList>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
+                    {/* Institution Combobox */}
+                    <Popover open={openInstitution} onOpenChange={setOpenInstitution}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={openInstitution}
+                                className="justify-between"
+                            >
+                                {selectedInstitution || "All Institutions"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Command>
+                                <CommandInput
+                                    placeholder="Institution..."
+                                    onInput={(e) => setSelectedInstitution(e.currentTarget.value)}
+                                />
+                                <CommandEmpty>No Institutions Found</CommandEmpty>
+                                <CommandList>
+                                    {availableInstitions.map((institution, index) => (
+                                        <CommandItem
+                                            key={index}
+                                            onSelect={() => handleInstitutionChangeCombobox(institution)}
+                                        >
+                                            {institution}
+                                        </CommandItem>
+                                    ))}
+                                </CommandList>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
+                    {/* Education Level Combobox */}
+                    <Popover open={openEducationLevel} onOpenChange={setOpenEducationLevel}>
+                        <PopoverTrigger asChild>
+                            <Button
+                                variant="outline"
+                                role="combobox"
+                                aria-expanded={openEducationLevel}
+                                className="justify-between"
+                            >
+                                {selectedEducationLevel || "All Education Levels"}
+                                <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                        </PopoverTrigger>
+                        <PopoverContent>
+                            <Command>
+                                <CommandInput
+                                    placeholder="Education Level..."
+                                    onInput={(e) => setSelectedEducationLevel(e.currentTarget.value)}
+                                />
+                                <CommandEmpty>No Education Levels Found</CommandEmpty>
+                                <CommandList>
+                                    {availableEducationLevels.map(level => (
+                                        <CommandItem
+                                            key={level}
+                                            onSelect={() => handleEducationLevelChangeCombobox(level)}
+                                        >
+                                            {level}
+                                        </CommandItem>
+                                    ))}
+                                </CommandList>
+                            </Command>
+                        </PopoverContent>
+                    </Popover>
                 </div>
+                {/* CLEAR BUTTON */}
+                <Button variant="ghost" onClick={clearFilters}>Clear Filters</Button>
+            </div>
+            <div>
+
+            </div>
+            <div>
+                {users.length === 0 ? (
+                    <div>No Users Found</div>
+                ) : (
+                    users.map((user) => (
+                        <Card key={user.id} className='mb-4'>
+                            <CardHeader>
+                                <CardTitle className='font-bold flex'>
+                                    {user.name}
+                                    <span className='ml-2'>{user.verified && <BadgeCheckIcon />}</span>
+                                </CardTitle>
+                                <CardDescription>{user.InstitutionName}</CardDescription>
+                            </CardHeader>
+                            <CardContent>
+                                <div className='sm:flex-col space-x-1'>
+                                    {user.skills ? user.skills.split(',').map((skill, index) => (
+                                        <Badge key={index}>{skill.trim()}</Badge>
+                                    )) : (
+                                        <p className='text-sm text-muted'>No Skills Added</p>
+                                    )}
+                                </div>
+                                <div className='flex flex-col py-2 justify-center'>
+                                    <div className='flex'>
+                                        Education Level: {
+                                            <div className='ml-1 font-semibold'>
+                                                {user.EducationLevel}
+                                            </div>
+                                        }
+                                    </div>
+                                    {user.GraduationDate && (
+                                        <div className='flex'>
+                                            Graduation Date: {
+                                                <div className='ml-1 font-semibold'>
+                                                    {formatDate(user.GraduationDate)}
+                                                </div>
+                                            }
+                                        </div>
+                                    )}
+                                </div>
+                            </CardContent>
+                            <CardFooter>
+                                <Link href={`/users/${user.id}`} className='ml-auto'>
+                                    <Button>Explore</Button>
+                                </Link>
+                            </CardFooter>
+                        </Card>
+                    ))
+                )}
+            </div>
+            {/* Pagination */}
+            <div className="flex justify-center items-center space-x-4 mt-4">
+                <Button onClick={handlePrevPage} disabled={currentPage === 1}>Previous</Button>
+                <span>Page {currentPage} of {Math.ceil(total / usersPerPage)}</span>
+                <Button onClick={handleNextPage} disabled={currentPage === Math.ceil(total / usersPerPage)}>Next</Button>
             </div>
         </div>
     );

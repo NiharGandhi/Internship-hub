@@ -20,18 +20,13 @@ import ErrorCard from '@/components/displays/ErrorCard';
 
 const UsersPage = () => {
   const { user, isLoaded } = useUser();
-  const { users, loading, error } = useUsers();
 
-  if (loading || !isLoaded) {
+  if (!isLoaded) {
     return <Spinner />
   }
 
   if (!user) {
     redirect("/")
-  }
-
-  if (error) {
-    <ErrorCard message={error} />
   }
 
   return (
@@ -48,7 +43,7 @@ const UsersPage = () => {
         </BreadcrumbList>
       </Breadcrumb>
       <h1 className="font-bold text-4xl px-4">Users</h1>
-      <SearchUsersPage userId={user?.id} users={users} />
+      <SearchUsersPage />
     </div>
   );
 }

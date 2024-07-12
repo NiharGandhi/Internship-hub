@@ -10,11 +10,14 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import HeroImage from "../../public/images/placeholder.png";
+import { useUser } from '@clerk/nextjs';
+import { redirect } from 'next/navigation';
 
 
 const Home = () => {
     const [loading, setLoading] = useState(true);
     const [internshipsData, setInternshipsData] = useState<any>([]);
+    const { user, isLoaded, isSignedIn } = useUser();
 
     useEffect(() => {
         const fetchInternshipData = async () => {
@@ -30,7 +33,11 @@ const Home = () => {
         fetchInternshipData();
     }, []);
 
-    if (loading) return <Spinner />;
+    if (loading && !isLoaded) return <Spinner />;
+
+    if (user && isSignedIn) {
+        redirect("/home");
+    }
 
     return (
         <div>
