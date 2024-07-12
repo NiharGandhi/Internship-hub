@@ -100,8 +100,12 @@ const UserPublicPage = ({
                                 {userDetails?.name}
                                 <span className='ml-2'>{userDetails?.verified && <BadgeCheckIcon />}</span>
                             </div>
-                            {userDetails && userDetails.id && userDetails?.userId && user?.id !== userDetails!.userId && (
-                                <ConnectionButton targetUserId={userDetails!.id} knockReceiverId={userDetails!.userId} />
+                            {userDetails && userDetails.name && userDetails.id && userDetails?.userId && userDetails.email && user?.id !== userDetails!.userId && (
+                                <ConnectionButton 
+                                    targetUserId={userDetails!.id} 
+                                    knockReceiverId={userDetails!.userId} 
+                                    knockEmailId={userDetails!.email}
+                                    knockName={userDetails!.name} />
                             )}
                         </CardTitle>
                         <CardDescription>{userDetails?.InstitutionName}</CardDescription>

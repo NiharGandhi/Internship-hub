@@ -130,7 +130,7 @@ const Home = () => {
             </Card>
             <Card className='border-orange mt-4'>
                 <CardContent>
-                    <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 py-4">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 py-4">
                         <ResourceCard
                             resources={onlineResources}
                             title='Online Resources'

@@ -15,9 +15,11 @@ const knockClient = new Knock("sk_ylMYMj2CN3mm6F2l--Xkqg-5gBI1LVm3n85-2E6UAok");
 interface ConnectionButtonProps {
     targetUserId: string;
     knockReceiverId: string;
+    knockEmailId: string;
+    knockName: string;
 };
 
-const sendConnectionRequest = async (targetUserId: string, knockReceiverId: string) => {
+const sendConnectionRequest = async (targetUserId: string, knockReceiverId: string, knockEmailId: string, knockName: string) => {
 
     try {
         const response = await axios.post('/api/checkConnection', {
@@ -35,7 +37,8 @@ const sendConnectionRequest = async (targetUserId: string, knockReceiverId: stri
             recipients: [
                 {
                     id: knockReceiverId,
-                    name: sender.data.name,
+                    email: knockEmailId,
+                    name: knockName,
                 }
             ],
         })
@@ -51,7 +54,7 @@ const sendConnectionRequest = async (targetUserId: string, knockReceiverId: stri
     }
 };
 
-const ConnectionButton: React.FC<ConnectionButtonProps> = ({ targetUserId, knockReceiverId }) => {
+const ConnectionButton: React.FC<ConnectionButtonProps> = ({ targetUserId, knockReceiverId, knockEmailId, knockName }) => {
 
     const { toast } = useToast();
     const [connection, setConnection] = useState('')
@@ -80,7 +83,7 @@ const ConnectionButton: React.FC<ConnectionButtonProps> = ({ targetUserId, knock
     }, [targetUserId]);
 
     const handleClick = async () => {
-        const responseMessage = await sendConnectionRequest(targetUserId, knockReceiverId);
+        const responseMessage = await sendConnectionRequest(targetUserId, knockReceiverId, knockEmailId, knockName);
         toast({
             title: responseMessage
         })
