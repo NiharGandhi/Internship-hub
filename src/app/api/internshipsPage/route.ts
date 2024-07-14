@@ -4,11 +4,11 @@ import { NextResponse } from "next/server";
 
 export async function GET() {
     try {
-        const { userId } = auth();
+        // const { userId } = auth();
 
-        if (!userId) {
-            return new NextResponse("Unauthorized", { status: 401 });
-        }
+        // if (!userId) {
+        //     return new NextResponse("Unauthorized", { status: 401 });
+        // }
 
         const allInternships = await client.createInternship.findMany({
             include: {

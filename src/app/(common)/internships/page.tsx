@@ -4,15 +4,27 @@ import SearchInternshipsPage from './_components/SearchInternships';
 import useInternships from '@/hooks/internships/useInternships';
 import { Spinner } from '@/components/spinner';
 import ErrorCard from '@/components/displays/ErrorCard';
+import { useUser } from '@clerk/nextjs';
+import NoUserCard from '@/components/displays/NoUser';
+import DisplayInternshipsPage from '@/components/displays/home-internships-display';
+import PublicInternshipsPage from './_components/PublicInternships';
 
 
 
 const InternshipsPage = () => {
 
+    const { user, isLoaded } = useUser();
+
     const {internships, loading, error} = useInternships();
 
-    if (loading) {
+    if (loading && !isLoaded) {
         return <Spinner />
+    }
+
+    if (!user) {
+        return (
+            <PublicInternshipsPage internships={internships} />
+        )
     }
 
     if (error) {
