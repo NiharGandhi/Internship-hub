@@ -140,11 +140,11 @@ const EditEventManagement = ({
             const response = await axios.put(`/api/editEvents/${eventUrlId}`, values);
             toast({
                 title: "Congratulations",
-                description: "Profile Updated Successfully.",
+                description: "Event Updated Successfully.",
             });
             window.location.reload();
         } catch (error) {
-            console.error("Error updating profile:", error);
+            console.error("Error updating event:", error);
         }
     };
     // Render loader while data is being fetched
