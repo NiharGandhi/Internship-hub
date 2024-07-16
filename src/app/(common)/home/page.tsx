@@ -83,7 +83,7 @@ const Home = () => {
     const { userName, userType, userData, orgData, loading: userLoading, error: userError } = useUserData(user);
     const { internships, loading: internshipsLoading, error: internshipError } = useAllInternships();
 
-    if (internshipsLoading || loading || loadingRes || !isLoaded) return <Spinner />
+    if (userLoading || internshipsLoading || loading || loadingRes || !isLoaded) return <Spinner />
 
     if (error || errorRes || userError || internshipError) {
         return (
