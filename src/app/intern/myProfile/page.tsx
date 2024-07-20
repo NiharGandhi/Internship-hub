@@ -49,8 +49,18 @@ import {
 import { useToast } from '@/components/ui/use-toast';
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from '@/components/ui/textarea';
+import {
+    Drawer,
+    DrawerClose,
+    DrawerContent,
+    DrawerDescription,
+    DrawerFooter,
+    DrawerHeader,
+    DrawerTitle,
+    DrawerTrigger,
+} from "@/components/ui/drawer"
 
-import { CalendarIcon, ChevronDown, DownloadCloudIcon, FileIcon } from 'lucide-react';
+import { CalendarIcon, ChevronDown, DownloadCloudIcon, FileIcon, Share } from 'lucide-react';
 import { SocialIcon } from 'react-social-icons'
 
 import { FileUpload } from '@/components/file-upload/file-upload';
@@ -59,7 +69,7 @@ import { Spinner } from '@/components/spinner';
 import ProfileCertificatesDisplay from '@/components/displays/profileCertificatesDisplay';
 import ProfileProjectsDisplay from '@/components/displays/profileProjectsDisplay';
 
-
+import QRCode from "react-qr-code";
 
 const formSchema = z.object({
     name: z.string().min(2).max(50),
@@ -89,6 +99,12 @@ const MyProfile = () => {
     const [certificates, setCertificates] = useState<any>(null);
     const [isEditing, setIsEditing] = useState<boolean>(false);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false);
+
+    const togglePopover = () => {
+        setIsPopoverOpen(!isPopoverOpen);
+    };
+
 
     const toggleEdit = () => {
         setIsEditing(!isEditing);
@@ -259,7 +275,30 @@ const MyProfile = () => {
                     <h1 className='text-4xl font-bold font-sans'>
                         Your Profile
                     </h1>
-                    <div className='ml-auto'>
+                    <div className='ml-auto flex flex-col lg:flex-row items-center gap-2'>
+                        <Drawer>
+                            <DrawerTrigger asChild>
+                                <Button variant="outline">
+                                    <Share />
+                                </Button>
+                            </DrawerTrigger>
+                            <DrawerContent>
+                                <DrawerHeader>
+                                    <DrawerTitle>{userData.name}</DrawerTitle>
+                                    <DrawerDescription>{userData.InstitutionName}</DrawerDescription>
+                                </DrawerHeader>
+                                <div className="mx-auto w-full max-w-sm">
+                                    <div className='m-4'>
+                                        <QRCode
+                                            size={256}
+                                            style={{ height: "auto", maxWidth: "100%", width: "100%" }}
+                                            value={`https://www.internvista.tech/users/${userData.id}`}
+                                            viewBox={`0 0 256 256`}
+                                        />
+                                    </div>
+                                </div>
+                            </DrawerContent>
+                        </Drawer>
                         {renderButtons()}
                     </div>
                 </div>
