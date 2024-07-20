@@ -32,7 +32,7 @@ const SideNav = () => {
     }, [user]);
 
     if (!isLoaded) {
-        return <Spinner />;
+        return;
     }
     return (
         <div className="md:w-60 bg-white h-screen flex-1 fixed border-r border-orange hidden md:flex">
