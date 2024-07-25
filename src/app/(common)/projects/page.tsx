@@ -3,12 +3,6 @@
 import React from 'react'
 
 import {
-    Card,
-    CardContent,
-    CardHeader,
-    CardTitle,
-} from "@/components/ui/card";
-import {
     Breadcrumb,
     BreadcrumbItem,
     BreadcrumbLink,
@@ -39,7 +33,7 @@ const AllProjects = () => {
 
     return (
         <div>
-            <Breadcrumb className='mt-2'>
+            <Breadcrumb className='mt-2 lg:ml-4'>
                 <BreadcrumbList>
                     <BreadcrumbItem>
                         <BreadcrumbLink href="/home">Home</BreadcrumbLink>
@@ -50,31 +44,20 @@ const AllProjects = () => {
                     </BreadcrumbItem>
                 </BreadcrumbList>
             </Breadcrumb>
-
+            <h1 className='font-bold text-4xl mt-2 lg:px-4'>Projects</h1>
             <div className='py-4'>
-                <Card>
-                    <CardHeader className='flex flex-col lg:flex-row gap-2'>
-                        <div>
-                            <CardTitle className='font-bold flex'>
-                                Projects
-                            </CardTitle>
-                        </div>
-                    </CardHeader>
-                    <CardContent>
-                        {projects && projects.length > 0 ? (
-                            <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
-                                {projects.map((project: any, index: number) => (
-                                    <AllProjectsCard project={project} key={index} />
+                {projects && projects.length > 0 ? (
+                    <div className='grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4'>
+                        {projects.map((project: any, index: number) => (
+                            <AllProjectsCard project={project} key={index} />
 
-                                ))}
-                            </div>
-                        ) : (
-                            <div className='flex items-center justify-center text-muted-foreground'>
-                                No Projects Uploaded
-                            </div>
-                        )}
-                    </CardContent>
-                </Card>
+                        ))}
+                    </div>
+                ) : (
+                    <div className='flex items-center justify-center text-muted-foreground'>
+                        No Projects Uploaded
+                    </div>
+                )}
             </div>
         </div>
     )

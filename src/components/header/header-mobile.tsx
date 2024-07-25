@@ -3,13 +3,12 @@
 import React, { ReactNode, useEffect, useRef, useState } from 'react';
 
 import Link from 'next/link';
-import { redirect, usePathname } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 
 import { SideNavItem } from '@/types';
 import { Icon } from '@iconify/react';
 import { motion, useCycle } from 'framer-motion';
 import { INTERNSHIP_FINDER_SIDENAV_ITEMS, RECRUITER_SIDENAV_ITEMS } from '@/constants/navigation';
-import { Spinner } from '../spinner';
 import { useUser } from '@clerk/nextjs';
 
 type MenuItemWithSubMenuProps = {

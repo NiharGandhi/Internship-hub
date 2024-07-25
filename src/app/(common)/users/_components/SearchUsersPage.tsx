@@ -19,6 +19,7 @@ import Link from 'next/link';
 import useUsers from '@/hooks/users/useUsers';
 import { Spinner } from '@/components/spinner';
 import ErrorCard from '@/components/displays/ErrorCard';
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from '@/components/ui/breadcrumb';
 
 const SearchUsersPage = () => {
     const [currentPage, setCurrentPage] = useState(1);
@@ -122,6 +123,18 @@ const SearchUsersPage = () => {
 
     return (
         <div>
+            <Breadcrumb className='mt-3 lg:ml-4'>
+                <BreadcrumbList>
+                    <BreadcrumbItem>
+                        <BreadcrumbLink href="/home">Home</BreadcrumbLink>
+                    </BreadcrumbItem>
+                    <BreadcrumbSeparator />
+                    <BreadcrumbItem>
+                        <BreadcrumbPage>Users</BreadcrumbPage>
+                    </BreadcrumbItem>
+                </BreadcrumbList>
+            </Breadcrumb>
+            <h1 className='font-bold text-4xl mt-2 lg:px-4'>Users</h1>
             {/* Search Bar */}
             <div className='py-2 px-2 flex flex-col lg:flex-row gap-2'>
                 <Input

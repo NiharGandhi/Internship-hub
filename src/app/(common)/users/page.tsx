@@ -31,18 +31,6 @@ const UsersPage = () => {
 
   return (
     <div>
-      <Breadcrumb className="mt-3 lg:ml-4">
-        <BreadcrumbList>
-          <BreadcrumbItem>
-            <BreadcrumbLink href="/home">Home</BreadcrumbLink>
-          </BreadcrumbItem>
-          <BreadcrumbSeparator />
-          <BreadcrumbItem>
-            <BreadcrumbPage>Users</BreadcrumbPage>
-          </BreadcrumbItem>
-        </BreadcrumbList>
-      </Breadcrumb>
-      <h1 className="font-bold text-4xl">Users</h1>
       <SearchUsersPage />
     </div>
   );

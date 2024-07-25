@@ -126,7 +126,7 @@ const SearchInternshipsPage = ({ internships } : { internships : any }) => {
                 </BreadcrumbList>
             </Breadcrumb>
             <h1 className='font-bold text-4xl mt-2 lg:px-10'>Internships</h1>
-            <div className='py-4 lg:px-8 space-y-4 space-x-4'>
+            <div className='py-4 lg:px-8 space-y-4'>
                 {/* Search Bar */}
                 <Input
                     type="text"

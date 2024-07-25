@@ -74,14 +74,14 @@ const Home = () => {
                     </div>
                 </section>
             </main>
-            <Card className='border-orange mt-4 w-[350px] lg:w-full'>
+            {/* <Card className='border-orange mt-4 w-[350px] lg:w-full'>
                 <CardHeader className='font-semibold text-2xl'>
                     Internships
                 </CardHeader>
                 <CardContent>
                     <DisplayInternshipsPage internships={internshipsData} />
                 </CardContent>
-            </Card>
+            </Card> */}
         </div>
     );
 }
