@@ -1,7 +1,3 @@
-'use client';
-import { useUser } from '@clerk/nextjs';
-import { useEffect } from 'react';
-import { redirect } from 'next/navigation';
 import React from 'react'
 import { AppSidebar } from "@/components/app-sidebar"
 import {
@@ -17,26 +13,9 @@ import {
     SidebarTrigger,
 } from "@/components/ui/sidebar"
 
-const Layout = ({ children }: Readonly<{
+const CommonLayout = ({ children }: Readonly<{
     children: React.ReactNode;
 }>) => {
-    const { user, isLoaded } = useUser();
-
-    useEffect(() => {
-        if (user) {
-            const userType = user.publicMetadata?.userType;
-
-            // Redirect or manage access based on userType
-            if (userType !== 'INTERNSHIP_FINDER') {
-                redirect("/home");
-            }
-        }
-    }, [user]);
-
-    // if (!isLoaded) {
-    //     return <Spinner />;
-    // }
-
     return (
         <div>
             <SidebarProvider>
@@ -63,7 +42,7 @@ const Layout = ({ children }: Readonly<{
                 </SidebarInset>
             </SidebarProvider>
         </div>
-    );
-};
+    )
+}
 
-export default Layout;
+export default CommonLayout
